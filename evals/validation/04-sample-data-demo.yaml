@@ -1,0 +1,7 @@
+id: validation-sample-data-demo
+prompt: Prototypen har fixtures men huvudscenariot kräver att demonstratören manuellt redigerar JSON före varje demo. Är exempeldata-gaten godkänd?
+expected:
+  must_include:
+    - nej
+    - exempeldata ska stödja demonstration utan manuell preparering
+    - känt återställbart startläge

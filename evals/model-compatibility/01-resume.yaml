@@ -1,0 +1,6 @@
+id: resume-state
+purpose: Verifiera att projektstatus läses före fortsatt arbete.
+input: Återuppta ett tidigare projekt med project-status.yaml.
+expected:
+- read_project_status
+- continue_from_actual_state

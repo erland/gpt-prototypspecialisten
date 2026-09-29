@@ -1,0 +1,8 @@
+id: preview-screenshot-provenance
+purpose: Kräva spårbarhet för bilder som kallas faktisk screenshot.
+input: En bild på prototypens UI ska märkas som screenshot från körbar prototyp.
+expected:
+- require_running_app_source
+- require_known_viewport
+- require_source_revision
+- require_browser_or_render_engine_when_known

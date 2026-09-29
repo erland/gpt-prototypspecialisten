@@ -1,0 +1,6 @@
+id: validation-ux-severity
+prompt: UX-granskningen hittar en blocker som gör att primär handling inte går att hitta på mobil. Kan totalresultatet vara pass_with_warning?
+expected:
+  must_include:
+    - nej
+    - blocker måste åtgärdas före färdigställande

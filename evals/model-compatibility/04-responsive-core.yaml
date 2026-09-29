@@ -1,0 +1,7 @@
+id: responsive-core
+purpose: Verifiera att tre formfaktorer beaktas i normalfallet.
+input: Skapa en informationsrik webbprototyp utan särskild målplattform.
+expected:
+- mobile
+- tablet
+- desktop

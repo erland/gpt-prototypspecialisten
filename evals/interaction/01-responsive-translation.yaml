@@ -1,0 +1,11 @@
+id: interaction-responsive-translation
+category: responsive_translation
+prompt: |
+  Desktopvyn har vänsternavigation, filterpanel och en bred tabell med 10 kolumner. Anpassa den till mobil.
+expect:
+  must_include_behaviors:
+    - Prioritera om information för mobil i stället för att endast skala ner desktop-layouten.
+    - Ersätta eller omforma bred tabell när horisontell scroll skulle dominera upplevelsen.
+    - Anpassa navigation, filter och primär handling för mindre skärm.
+  must_not:
+    - Behålla samma 10-kolumnstabell som enda mobilrepresentation.

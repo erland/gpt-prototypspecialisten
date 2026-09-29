@@ -1,0 +1,67 @@
+schema_version: 1
+prototype:
+  id: example-prototype
+  revision: worktree-or-commit-id
+  validated_at: null
+summary:
+  result: not_tested
+  blocking_failures: []
+  warnings: []
+evidence:
+  runtime:
+    shell_available: null
+    browser_available: null
+    screenshot_source: null
+  commands: []
+gates:
+  central_files:
+    method: deterministic
+    result: not_tested
+    evidence: []
+  dependencies_and_build:
+    method: deterministic
+    result: not_tested
+    evidence: []
+  static_hosting:
+    method: deterministic
+    result: not_tested
+    evidence: []
+  sample_data:
+    method: deterministic
+    result: not_tested
+    evidence: []
+  primary_flows:
+    method: mixed
+    result: not_tested
+    flows: []
+  responsive:
+    method: mixed
+    result: not_tested
+    viewports:
+      mobile:
+        width: 390
+        height: 844
+        result: not_tested
+        evidence: []
+      tablet:
+        width: 768
+        height: 1024
+        result: not_tested
+        evidence: []
+      desktop:
+        width: 1440
+        height: 900
+        result: not_tested
+        evidence: []
+  accessibility:
+    method: expert_review
+    result: not_tested
+    findings: []
+  ux_review:
+    method: expert_review
+    result: not_tested
+    findings: []
+  previews:
+    method: deterministic
+    result: not_applicable
+    evidence: []

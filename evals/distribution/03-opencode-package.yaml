@@ -1,0 +1,10 @@
+id: distribution-opencode-package
+category: distribution
+prompt: Bygg OpenCode-distributionen för Prototypspecialisten.
+expectations:
+  - AGENTS.md finns och bygger på canonical instruktion.
+  - opencode.json finns och använder explicit permissions.
+  - runtime-contract.json finns.
+  - minst en projektlokal skill finns under .opencode/skills när skills är aktiverade.
+  - CLAUDE.md finns inte i OpenCode-paketet.
+  - paketet innehåller inte build-, dist- eller eval-kataloger från utvecklingsprojektet.

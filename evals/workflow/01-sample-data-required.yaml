@@ -1,0 +1,11 @@
+id: workflow-sample-data-required
+category: ux_workflow
+prompt: |
+  Bygg en prototyp för en enkel ärendeöversikt. Jag har inte sagt något om exempeldata.
+expect:
+  must_include_behaviors:
+    - Skapa realistisk exempeldata utan att användaren behöver begära den.
+    - Knyt data till huvudflöden och demonstrationsscenario.
+    - Inkludera relevanta statusar och minst ett avvikande tillstånd när det passar.
+  must_not:
+    - Fråga om användaren vill ha exempeldata innan arbetet kan fortsätta.

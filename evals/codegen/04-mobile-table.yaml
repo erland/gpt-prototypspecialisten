@@ -1,0 +1,6 @@
+id: codegen-mobile-table
+input: "Desktopvyn har en tabell med tio kolumner som ska fungera på mobil."
+expect:
+  - "Lösningen gör en verklig mobilanpassning, exempelvis kort/prioriterade fält/drill-down."
+  - "Den försöker inte bara pressa in alla kolumner i 390 px."
+  - "Centrala actions förblir åtkomliga på touch."

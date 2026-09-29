@@ -1,0 +1,316 @@
+schema_version: 1
+project:
+  id: prototypspecialisten
+  name: Prototypspecialisten
+  description: UX-fokuserad GPT för körbara, responsiva webbprototyper med realistisk
+    exempeldata.
+profile: zip_first_advanced
+instructions:
+  canonical: assistant/instructions.md
+  core_contract:
+    enabled: true
+    required_markers:
+    - Analysera användningsfallet före kodning.
+    - Skapa alltid realistisk exempeldata.
+    - Designa alltid för mobil, tablet och desktop
+    - Gör aldrig Playwright/Chromium till ett krav för färdigställande.
+    - Skilj tydligt mellan genererad mockup och screenshot från verklig app.
+    - Operativ kärna
+    required_runtime_dependencies: []
+    max_required_file_hops: 1
+    knowledge_may_not_be_required_for_core_behavior: true
+capabilities:
+  contract_version: 1
+  schema: schemas/capability-contract.schema.json
+  recommendation_mode: inferred_from_use_case
+  ask_user_only_when_business_choice_is_ambiguous: true
+  requirements:
+    web:
+      level: recommended
+      reason: Behövs för att analysera referens-URL:er och aktuell webbinspiration
+        när användaren anger sådan.
+    filesystem:
+      read: required
+      write: required
+    shell:
+      level: recommended
+      reason: Användbart för npm-build och deterministisk validering där runtime tillåter
+        det.
+    code_execution:
+      level: required
+      reason: Kärnuppgiften är att skapa och validera körbara frontendprojekt.
+    structured_data:
+      level: required
+      reason: Exempeldata, projektstatus och kontrakt är strukturerade.
+    persistent_state:
+      level: required
+      reason: Iterativ prototyputveckling ska kunna återupptas från projektfiler.
+    external_tools:
+      level: optional
+      preferred_protocols:
+      - mcp
+      reason: Kan senare användas för browser-rendering eller deployment men får inte
+        vara kärnberoende.
+    image_generation:
+      level: recommended
+      reason: Ger tidiga visuella mockups när riktig browser-rendering saknas.
+artifacts:
+  contract_version: 1
+  schema: schemas/artifact-contract.schema.json
+  outputs:
+    prototype_project:
+      kind: package
+      format: zip
+      requirement: required
+      persistence: persistent
+      multiplicity: one
+      description: Komplett körbart prototypprojekt.
+    prototype_preview:
+      kind: document
+      format: image-or-screenshot
+      requirement: conditional
+      condition: preview_is_useful
+      persistence: persistent
+      multiplicity: many
+      description: Tydligt märkt mockup eller faktisk screenshot.
+    ux_review:
+      kind: report
+      format: markdown
+      requirement: required
+      persistence: persistent
+      multiplicity: one
+      description: Kort UX-bedömning av prototypen.
+    project_package:
+      kind: package
+      format: zip
+      requirement: required
+      persistence: persistent
+      multiplicity: one
+      filename_pattern: <project-id>-project.zip
+      description: Komplett GPT-utvecklingsprojekt.
+    runtime_package:
+      kind: distribution
+      format: zip
+      requirement: conditional
+      condition: runtime_adapter_enabled
+      persistence: persistent
+      multiplicity: many
+      description: Runtime-specifika GPT-distributioner.
+    validation_report:
+      kind: report
+      format: yaml
+      requirement: required
+      persistence: persistent
+      multiplicity: one
+      filename_pattern: validation-report.yaml
+      description: Maskinläsbar gate-status och evidens för build, hosting, data,
+        flöden, formfaktorer och UX.
+  legacy_mapping:
+    project_zip: project_package
+    chat_zip: runtime_package
+    custom_gpt_zip: runtime_package
+    opencode_zip: runtime_package
+workspace_state:
+  contract_version: 1
+  schema: schemas/workspace-state-contract.schema.json
+  workspace:
+    requirement: required
+    persistence: required
+    portable: true
+    separate_from_assistant: true
+    artifact: prototype_project
+    description: Prototypprojektet är portabelt och separat från assistentens egen
+      distribution.
+  state:
+    requirement: required
+    persistence: required
+    authority: workspace_file
+    format: yaml
+    path: project-status.yaml
+    conversation_fallback: false
+    description: Strukturerad projektstatus är auktoritativ för återupptagning.
+  runtime_preferences:
+    chat: conversation_or_file
+    agent: workspace_file
+tools:
+  contract_version: 1
+  schema: schemas/tool-contract.schema.json
+  tools: []
+workflow:
+  mode: explicit_state_machine
+  policy: assistant/policies/workflow-policy.md
+  states:
+    idea_analysis:
+      next:
+      - architecture
+    architecture:
+      next:
+      - planning
+    planning:
+      next:
+      - implementation
+    implementation:
+      next:
+      - validation
+    validation:
+      next:
+      - implementation
+      - packaging
+    packaging:
+      next:
+      - release
+    release:
+      next:
+      - maintenance
+    maintenance:
+      next:
+      - implementation
+      - validation
+    blocked:
+      next: []
+    paused:
+      next: []
+  operational_core:
+  - read_project_contract
+  - read_project_status
+  - select_one_state_or_bounded_goal
+  - load_only_relevant_policy
+  - execute_change
+  - validate_deterministically
+  - correct_before_completion_on_failure
+  - update_structured_status_after_pass
+  - rebuild_project_zip_when_required
+  - recommend_next_step_from_actual_state
+model_robustness:
+  level: stateful
+  eval_coverage:
+    validator: scripts/validate_eval_coverage.py
+    required_model_scenarios: 9
+    required_categories:
+    - idea_input
+    - screenshot_input
+    - url_input
+    - responsive_translation
+    - forms_and_errors
+  separate_model_instructions: false
+  prefer_deterministic_validation: true
+  max_core_policy_hops: 1
+analysis:
+  runtime:
+    strategy: documented_candidates
+    assessment: docs/runtime-assessment.md
+    candidates:
+    - runtime_id: chatgpt_chat
+      suitability: high
+      planned_default: true
+    - runtime_id: chatgpt_custom
+      suitability: high
+      planned_default: true
+    - runtime_id: claude_projects
+      suitability: medium
+      planned_default: false
+    - runtime_id: opencode
+      suitability: high
+      planned_default: true
+    - runtime_id: openai_plugin
+      suitability: medium
+      planned_default: false
+structure:
+  conversation_starters:
+    path: conversation-starters
+  runtime_policy:
+    path: assistant/policies
+  schemas:
+    path: schemas
+  templates:
+    path: templates
+knowledge_architecture:
+  canonical_root: knowledge
+  custom_gpt:
+    priority:
+    - knowledge/*.md
+runtime:
+  primary: none
+  chat_zip:
+    enabled: true
+    start_here_template: templates/START-HERE.chat.md.tpl
+  custom_gpt:
+    enabled: true
+    instruction:
+      mode: identical
+      max_characters: 8000
+    knowledge:
+      strategy: prioritize
+      max_files: 20
+    templates:
+      capabilities: templates/capabilities.md.tpl
+      readme: templates/README.custom-gpt.md.tpl
+      compatibility: templates/COMPATIBILITY.md.tpl
+    builder:
+      runtime_contract: builder/runtime-contract.json
+  claude:
+    enabled: false
+  opencode:
+    enabled: true
+    layout:
+      instructions: AGENTS.md
+      config: opencode.json
+      runtime_contract: runtime-contract.json
+      knowledge: knowledge
+      tools: .opencode/tools
+      runtime_scripts: .opencode/runtime
+    skills:
+      enabled: true
+      directory: .opencode/skills
+    templates:
+      readme: templates/README.opencode.md.tpl
+  plugin:
+    enabled: false
+build:
+  build_chat_zip: true
+  build_custom_gpt_zip: true
+  build_claude_zip: false
+  build_opencode_zip: true
+  build_plugin_zip: false
+build_system:
+  targets:
+  - project
+  - chat
+  - custom_gpt
+  - opencode
+  runtime_targets:
+    chat:
+      runtime_id: chatgpt_chat
+      runtime_key: chat_zip
+      builder: chat
+      filename_pattern: <project-id>-chat-<version>.zip
+      artifact_type: chat_zip
+    custom_gpt:
+      runtime_id: chatgpt_custom
+      runtime_key: custom_gpt
+      builder: custom_gpt
+      filename_pattern: <project-id>-custom-gpt-<version>.zip
+      artifact_type: custom_gpt_zip
+    opencode:
+      runtime_id: opencode
+      runtime_key: opencode
+      builder: opencode
+      filename_pattern: <project-id>-opencode-<version>.zip
+      artifact_type: opencode_zip
+ci:
+  enabled: true
+  workflow: .github/workflows/ci.yml
+  version: 0.0.0-ci
+release:
+  github:
+    enabled: true
+    workflow: .github/workflows/release.yml
+    version_source: github.event.release.tag_name
+  candidate:
+    version: 0.1.0-rc.2
+    parity_validator: scripts/validate_runtime_parity.py
+    readiness_validator: scripts/validate_release_candidate.py
+    active_runtimes:
+    - chatgpt_chat
+    - chatgpt_custom
+    - opencode

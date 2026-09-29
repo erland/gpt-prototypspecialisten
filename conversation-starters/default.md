@@ -1,0 +1,3 @@
+- Skapa en körbar prototyp från den här idén.
+- Använd den här skärmdumpen som inspiration och skapa en responsiv prototyp.
+- Analysera den här URL:en och föreslå en testbar prototyp.

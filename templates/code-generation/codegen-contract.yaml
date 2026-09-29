@@ -1,0 +1,49 @@
+schema_version: 1
+stack:
+  framework: react
+  language: typescript
+  build_tool: vite
+  backend_required: false
+project_structure:
+  suggested:
+    - public/
+    - src/components/
+    - src/pages/
+    - src/data/fixtures.ts
+    - src/services/mock-api.ts
+    - src/state/storage.ts
+    - src/types/
+    - src/App.tsx
+    - src/main.tsx
+    - .github/workflows/deploy-pages.yml
+    - README.md
+sample_data:
+  deterministic: true
+  must_support_demo_flow: true
+  resettable: true
+service_simulation:
+  preferred: thin_mock_service
+  deterministic_error_paths: true
+persistence:
+  default_for_crud: localStorage
+  fallback_on_corrupt_state: fixtures
+  reset_demo_data: recommended
+responsive:
+  default_viewports:
+    mobile: 390
+    tablet: 768
+    desktop: 1440
+static_hosting:
+  reference_target: github_pages
+  build_output: dist
+  routing_must_survive_repo_subpath: true
+readme_required_sections:
+  - purpose_and_scope
+  - simulated_behavior
+  - demo_scenario
+  - local_run
+  - build
+  - reset_data
+  - responsive_viewports
+  - deployment
+  - known_limitations

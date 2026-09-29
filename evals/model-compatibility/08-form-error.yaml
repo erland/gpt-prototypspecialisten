@@ -1,0 +1,7 @@
+id: model-form-error
+purpose: Säkerställa demonstrerbara och deterministiska formulärfel.
+input: Ett formulär behöver både lyckad väg och validerings-/servicefel.
+expected:
+- deterministic_error_scenario
+- accessible_feedback
+- resettable_demo_state

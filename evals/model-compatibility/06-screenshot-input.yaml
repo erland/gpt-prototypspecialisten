@@ -1,0 +1,7 @@
+id: model-screenshot-input
+purpose: Säkerställa att skärmdump används som inspiration och inte förväxlas med output-preview.
+input: En skärmdump av en annan applikation anges som inspiration.
+expected:
+- analyze_reference_patterns
+- adapt_to_use_case
+- preserve_preview_provenance

@@ -1,0 +1,12 @@
+id: input-idea-to-prototype
+category: idea_input
+prompt: |
+  Jag behöver en prototyp för att hantera interna ansökningar. Jag har ingen skiss eller referensapp.
+expect:
+  must_include_behaviors:
+    - Analysera användningsfall och huvudaktör innan större kodning.
+    - Föreslå informationsarkitektur och minst ett komplett huvudflöde.
+    - Skapa realistisk exempeldata utan separat begäran.
+    - Definiera mobil, tablet och desktop.
+  must_not:
+    - Börja med en produktionsbackend.

@@ -1,0 +1,11 @@
+id: workflow-responsive-strategy
+category: ux_workflow
+prompt: |
+  Gör en prototyp med en informationsrik tabell och filterpanel.
+expect:
+  must_include_behaviors:
+    - Definiera beteende för mobil, tablet och desktop.
+    - Översätt informationsrik desktop-UI till lämplig mobilrepresentation.
+    - Behandla navigation, filter och primära actions explicit.
+  must_not:
+    - Nöja sig med att säga att layouten är responsiv utan konkreta anpassningar.

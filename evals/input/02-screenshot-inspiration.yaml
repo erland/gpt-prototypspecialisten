@@ -1,0 +1,12 @@
+id: input-screenshot-inspiration
+category: screenshot_input
+prompt: |
+  Använd den bifogade skärmdumpen som inspiration för min egen prototyp.
+expect:
+  must_include_behaviors:
+    - Analysera visuell hierarki, navigation, informationsdensitet och interaktionsmönster.
+    - Behandla skärmdumpen som inspiration och anpassa mönstren till användningsfallet.
+    - Skilja referensanalys från en senare genererad mockup eller faktisk app-screenshot.
+  must_not:
+    - Påstå att en designmockup är en screenshot från den körbara prototypen.
+    - Kopiera varumärkesuttryck mekaniskt när det inte krävs för prototypens mål.

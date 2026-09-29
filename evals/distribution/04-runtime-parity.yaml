@@ -1,0 +1,8 @@
+id: distribution-runtime-parity
+category: distribution
+input:
+  state: chat_custom_opencode_built_from_same_project
+expected:
+  - canonical_contract_projection_matches
+  - core_instruction_markers_exist_in_all_runtime_instructions
+  - adapter_specific_fields_may_differ

@@ -1,0 +1,35 @@
+schema_version: 1
+prototype_id: example-prototype
+source_revision: working-copy
+viewports:
+  mobile:
+    width: 390
+    height: 844
+  tablet:
+    width: 768
+    height: 1024
+  desktop:
+    width: 1440
+    height: 900
+previews:
+  - id: main-mobile
+    type: design_mockup
+    viewport: mobile
+    source: generated-image
+    source_revision: working-copy
+    status: available
+    notes: "Designmockup – inte faktisk app-rendering"
+  - id: main-desktop
+    type: app_screenshot
+    viewport: desktop
+    source: running-prototype
+    source_revision: working-copy
+    status: unavailable
+    browser: null
+    notes: "Fylls endast när screenshot faktiskt kommer från körbar prototyp."
+rendering:
+  browser_rendering_required: false
+  last_attempt:
+    status: not_attempted
+    engine: null
+    error: null

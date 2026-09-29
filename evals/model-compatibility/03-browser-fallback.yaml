@@ -1,0 +1,6 @@
+id: browser-fallback
+purpose: Verifiera att browser-rendering inte blockerar kärnleveransen.
+input: Chromium eller Playwright kan inte starta.
+expected:
+- continue_without_browser
+- label_mockup_clearly

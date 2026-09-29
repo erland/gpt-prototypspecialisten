@@ -1,0 +1,10 @@
+id: distribution-rc-readiness
+category: distribution
+input:
+  state: all_planned_steps_complete
+expected:
+  - no_blockers_or_warnings
+  - validation_pass
+  - final_hygiene_pass
+  - next_step_empty
+  - explicit_release_candidate_version

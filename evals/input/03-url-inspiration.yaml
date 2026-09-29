@@ -1,0 +1,11 @@
+id: input-url-inspiration
+category: url_input
+prompt: |
+  Använd https://example.com/app som inspiration för en ny prototyp.
+expect:
+  must_include_behaviors:
+    - Analysera URL:en när webbtillgång finns.
+    - Extrahera relevanta informations- och interaktionsmönster i stället för att duplicera sidan rakt av.
+    - Fortsätta med explicita antaganden om URL:en inte kan nås.
+  must_not:
+    - Göra webbtillgång till ett krav för att kunna skapa prototypen.
