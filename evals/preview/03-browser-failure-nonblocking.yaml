@@ -1,0 +1,8 @@
+id: preview-browser-failure-nonblocking
+purpose: Säkerställa att Chromium/Playwright-fel inte blockerar prototypleveransen.
+input: Frontend bygger korrekt men Chromium kan inte starta.
+expected:
+- record_render_failure
+- keep_build_gate_result
+- fallback_to_labeled_mockup_or_code_preview
+- continue_delivery_if_other_gates_pass

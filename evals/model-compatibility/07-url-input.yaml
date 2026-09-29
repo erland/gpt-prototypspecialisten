@@ -1,0 +1,7 @@
+id: model-url-input
+purpose: Säkerställa robust URL-analys med fallback.
+input: En referens-URL anges men webbtillgång kan vara otillgänglig.
+expected:
+- analyze_url_when_available
+- continue_with_explicit_assumptions_when_unavailable
+- do_not_block_core_delivery

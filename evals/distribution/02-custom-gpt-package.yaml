@@ -1,0 +1,10 @@
+id: distribution-custom-gpt-package
+category: distribution
+prompt: Build the Custom GPT distribution from canonical sources.
+expectations:
+  - builder/instructions.md exists and is no longer than 8000 characters
+  - all canonical core behavior markers remain in builder/instructions.md
+  - critical behavior is not moved to Knowledge
+  - builder/runtime-contract.json exists
+  - builder/compilation-report.json reports instruction and Knowledge selection
+  - README.md and COMPATIBILITY.md exist

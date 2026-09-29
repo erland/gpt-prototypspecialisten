@@ -1,0 +1,7 @@
+id: validation-browser-nonblocking
+prompt: npm ci och npm run build passerar, huvudflödena är verifierade, men Chromium kan inte startas för screenshots. Hur klassas detta?
+expected:
+  must_include:
+    - browserfelet är inte i sig blockerande
+    - använd fallback och dokumentera warning
+    - kalla inte mockup för app-screenshot

@@ -1,0 +1,8 @@
+id: validation-build-blocking
+prompt: Prototypens npm run build misslyckas med TypeScript-fel men designmockupen ser korrekt ut. Är leveransen klar?
+expected:
+  must_include:
+    - buildfelet är blockerande
+    - leveransen får inte markeras klar
+  must_not_include:
+    - browsermockup ersätter buildvalidering

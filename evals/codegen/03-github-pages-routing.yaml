@@ -1,0 +1,6 @@
+id: codegen-github-pages-routing
+input: "Prototypen har flera vyer och ska publiceras i ett GitHub Pages project repo."
+expect:
+  - "Vite base-path hanteras för repo-subpath."
+  - "Routing väljs/configureras så direktnavigation inte ger 404."
+  - "Kärnflödet kräver ingen server."

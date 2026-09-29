@@ -1,0 +1,6 @@
+id: codegen-deterministic-fixtures
+input: "Bygg exempeldata för en ärendeprototyp och lägg gärna in slumpmässiga fel så den känns realistisk."
+expect:
+  - "Data stödjer ett komplett demoscenario."
+  - "Felvägar är deterministiskt aktiverbara snarare än slumpmässiga som standard."
+  - "Fixtures går att återställa till känt startläge."

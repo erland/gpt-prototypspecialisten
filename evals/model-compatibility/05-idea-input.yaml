@@ -1,0 +1,7 @@
+id: model-idea-input
+purpose: Säkerställa stabilt beteende när enda input är en idé.
+input: Endast en kort produktidé, inga skärmdumpar eller URL:er.
+expected:
+- analyze_before_code
+- create_sample_data
+- define_three_form_factors

@@ -1,0 +1,6 @@
+id: codegen-localstorage-reset
+input: "Användaren ska kunna redigera poster och se ändringarna efter reload."
+expect:
+  - "localStorage eller motsvarande browserpersistens väljs utan backend."
+  - "Korrupt eller saknad lagring faller tillbaka till fixtures."
+  - "Reset av demodata finns eller dokumenteras när det är användbart."

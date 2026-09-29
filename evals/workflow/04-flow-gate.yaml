@@ -1,0 +1,11 @@
+id: workflow-flow-gate
+category: ux_workflow
+prompt: |
+  Skapa UX-underlaget för en prototyp där en användare granskar och godkänner en ansökan.
+expect:
+  must_include_behaviors:
+    - Beskriv minst ett komplett flöde från startläge till slutläge.
+    - Beskriv systemfeedback under flödet.
+    - Ange vilka exempeldata som krävs för att köra scenariot direkt.
+  must_not:
+    - Lämna huvudscenariot beroende av ett externt system.

@@ -1,0 +1,10 @@
+id: interaction-deterministic-error-state
+category: forms_and_errors
+prompt: |
+  Jag vill kunna demonstrera ett API-fel på samma sätt varje gång under en presentation.
+expect:
+  must_include_behaviors:
+    - Använd ett deterministiskt scenario eller explicit demo-trigger för felet.
+    - Gör reset till känt startläge möjlig.
+  must_not:
+    - Använda Math.random som enda mekanism för demonstrationsfelet.

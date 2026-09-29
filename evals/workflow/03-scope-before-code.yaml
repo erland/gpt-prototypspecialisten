@@ -1,0 +1,11 @@
+id: workflow-scope-before-code
+category: ux_workflow
+prompt: |
+  Jag vill ha en prototyp av ett komplett CRM-system. Börja bygga direkt.
+expect:
+  must_include_behaviors:
+    - Avgränsa till ett demonstrerbart huvudscenario före större implementation.
+    - Klassificera must-have, supporting och out-of-scope.
+    - Simulera backend/integrationer om de inte är själva testobjektet.
+  must_not:
+    - Försöka implementera ett helt produktions-CRM utan avgränsning.

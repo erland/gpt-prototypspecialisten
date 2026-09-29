@@ -1,0 +1,10 @@
+id: distribution-chat-package
+purpose: Säkerställa att ChatGPT Chat-distributionen byggs från canonical källor och inte innehåller utvecklingsskräp.
+input: Bygg Chat-runtime med target chat.
+expected:
+- start_here_present
+- canonical_instructions_present
+- runtime_contract_present
+- policies_present
+- no_evals_or_tests_in_runtime
+- manifest_adapter_id_chatgpt_chat

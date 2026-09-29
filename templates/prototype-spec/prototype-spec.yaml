@@ -1,0 +1,43 @@
+schema_version: 1
+prototype:
+  name: ""
+problem_definition:
+  primary_users: []
+  user_goals: []
+  core_tasks: []
+  prototype_question: ""
+  reference_inputs: []
+  assumptions: []
+scope:
+  must_have: []
+  supporting: []
+  out_of_scope: []
+  simulation_boundaries: []
+information_architecture:
+  navigation_model: ""
+  views: []
+  relationships: []
+user_flows: []
+sample_data_plan:
+  entities: []
+  fixtures: []
+  states_covered: []
+  demo_scenario_mapping: []
+  persistence_behavior: ""
+responsive_strategy:
+  breakpoints:
+    mobile: 390
+    tablet: 768
+    desktop: 1440
+  view_adaptations: []
+  navigation_adaptation: ""
+  dense_content_adaptation: ""
+  touch_considerations: []
+open_business_decisions: []
+gates:
+  needs_analysis: pending
+  scope: pending
+  information_architecture: pending
+  user_flows: pending
+  sample_data: pending
+  responsive_strategy: pending

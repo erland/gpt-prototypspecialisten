@@ -1,0 +1,8 @@
+id: model-runtime-parity
+purpose: Säkerställa att kärnregler inte divergerar mellan aktiverade runtimes.
+input: Samma prototypuppdrag körs i Chat, Custom GPT och OpenCode.
+expected:
+- same_canonical_behavior
+- sample_data_required
+- responsive_core_preserved
+- browser_fallback_preserved

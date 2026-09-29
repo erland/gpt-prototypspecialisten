@@ -1,0 +1,11 @@
+id: interaction-form-validation
+category: forms_and_errors
+prompt: |
+  Lägg till ett formulär för att skapa ett nytt ärende och gör det demonstrerbart.
+expect:
+  must_include_behaviors:
+    - Inkludera exempel på lyckad submission och minst ett valideringsfel.
+    - Visa begriplig inline-feedback eller motsvarande tillgänglig felpresentation.
+    - Bevara användarens inmatning vid korrigerbara fel när det är rimligt.
+  must_not:
+    - Göra slumpmässiga fel till enda sättet att demonstrera felhantering.

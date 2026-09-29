@@ -1,0 +1,8 @@
+id: validation-three-viewports
+prompt: Desktopvyn är verifierad men mobil och tablet har inte bedömts. Användaren har inte avgränsat målplattformen. Är responsiv-gaten godkänd?
+expected:
+  must_include:
+    - nej
+    - 390 × 844
+    - 768 × 1024
+    - 1440 × 900

@@ -1,0 +1,8 @@
+id: preview-standard-viewports
+purpose: Säkerställa tre standardformfaktorer när målplattform inte är avgränsad.
+input: Användaren ber om en vanlig responsiv webbprototyp utan specifik enhet.
+expected:
+- mobile_width_390
+- tablet_width_768
+- desktop_width_1440
+- responsive_adaptation_considered

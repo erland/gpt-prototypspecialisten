@@ -1,0 +1,6 @@
+id: validation-gate
+purpose: Verifiera att misslyckad deterministisk kontroll korrigeras före completion.
+input: Build-kontrollen misslyckas.
+expected:
+- do_not_mark_complete
+- correct_then_revalidate

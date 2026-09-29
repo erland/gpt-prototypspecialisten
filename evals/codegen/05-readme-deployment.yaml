@@ -1,0 +1,6 @@
+id: codegen-readme-deployment
+input: "Leverera prototypen."
+expect:
+  - "README beskriver syfte, simulering, demoscenario, lokal körning och build."
+  - "README beskriver reset av data när persistens används."
+  - "README beskriver GitHub Pages/statisk deployment och kända prototypbegränsningar."
