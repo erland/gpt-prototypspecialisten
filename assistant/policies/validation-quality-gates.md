@@ -108,7 +108,9 @@ För varje viewport ska minst detta kontrolleras:
 - formulär och touch-targets är praktiskt användbara,
 - informationsrika desktopmönster har lämplig mobilrepresentation.
 
-Om verklig browser-rendering är tillgänglig ska dessa kontroller helst baseras på den aktuella appen. Om Chromium/Playwright saknas får kod-/layoutgranskning och tydligt märkt designmockup användas som fallback. Fallback ska markeras i rapporten men blockerar inte i sig leveransen.
+Om Agent Workspace är tillgängligt och konfigurerat ska det föredras för faktisk build/start/rendering. För prestanda tas normalt bara en desktop-screenshot; tablet/mobil fångas när användaren ber om det, ändringen påverkar responsiv layout, hög responsiv risk finns eller tidigare problem följs upp. Övriga formfaktorer får bedömas via kod-/layoutgranskning och riktade kontroller.
+
+Om Agent Workspace eller annan browser-rendering saknas får kod-/layoutgranskning och tydligt märkt designmockup användas som fallback. Fallback ska markeras i rapporten men blockerar inte i sig leveransen.
 
 ## 5. Accessibility-gate
 

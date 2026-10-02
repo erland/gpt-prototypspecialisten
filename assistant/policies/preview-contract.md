@@ -24,15 +24,17 @@ En enklare strukturell förhandsvisning baserad på den genererade implementatio
 
 ## 2. Standardviewports
 
-Om användaren inte anger annat ska förhandsvisningar och responsivitetskontroll utgå från:
+Responsiv design och kvalitetsbedömning utgår, om användaren inte anger annat, från:
 
 - `mobile`: 390 × 844 px
 - `tablet`: 768 × 1024 px
 - `desktop`: 1440 × 900 px
 
+**Screenshot-strategin är däremot desktop-first.** Ta normalt endast en faktisk desktop-screenshot per relevant iteration. Tablet- eller mobil-screenshot tas endast när användaren ber om det, en ändring påverkar responsiv layout, hög responsiv risk finns eller ett tidigare problem behöver följas upp.
+
 Bredden är kontraktsbärande. Höjden får justeras om innehållet kräver helsidesfångst eller runtime har andra begränsningar.
 
-Om en målplattform uttryckligen avgränsas får övriga viewports utelämnas, men detta ska dokumenteras i preview-manifestet.
+Om en målplattform uttryckligen avgränsas får övriga viewports utelämnas från bedömningen, men detta ska dokumenteras i preview-manifestet.
 
 ## 3. Tidig mockup
 
@@ -62,7 +64,23 @@ För att en bild ska klassificeras som `app_screenshot` ska följande vara sant:
 
 Om dessa villkor inte kan styrkas ska bilden klassificeras som `design_mockup` eller `code_preview`.
 
-## 5. Playwright/Chromium
+## 5. Agent Workspace och browser-runtime
+
+När Agent Workspace är tillgängligt och konfigurerat är det föredragen runtime för faktisk verifiering. Användaren ska inte behöva säga "använd Agent Workspace" separat.
+
+Normalt flöde:
+
+1. kontrollera profil/kapabiliteter vid behov,
+2. skapa temporärt workspace,
+3. ladda upp prototypens ZIP,
+4. kör projektverifiering,
+5. starta prototypen,
+6. ta normalt en desktop-screenshot,
+7. ta extra viewport-screenshots endast enligt desktop-first-regeln ovan,
+8. hämta preview-länk endast när användaren vill prova prototypen själv,
+9. förstör alltid workspacet.
+
+Om Agent Workspace saknas, inte är konfigurerat eller ett anrop misslyckas ska kärnleveransen fortsätta med fallback.
 
 Playwright, Chromium eller motsvarande får användas när runtime stödjer det, men får aldrig vara ett krav för att färdigställa prototypen.
 
@@ -113,7 +131,7 @@ För browser-rendering ska även browser/renderingsmotor anges när den är kän
 
 ## 8. Responsiv jämförelse
 
-Minst en central vy ska normalt kunna bedömas i alla tre referensbredder före slutleverans.
+Minst en central vy ska normalt kunna **bedömas** i alla tre referensbredder före slutleverans. Detta innebär inte att tre screenshots måste tas. Kod-/layoutgranskning, responsiv strategi och riktade browserkontroller kan kombineras; faktisk screenshot är desktop som standard och övriga viewports fångas vid behov.
 
 Bedömningen ska kontrollera att:
 

@@ -1,0 +1,10 @@
+id: preview-agent-workspace-auto
+purpose: Säkerställa att Agent Workspace används automatiskt när det är installerat och konfigurerat.
+input: Agent Workspace-verktygen är tillgängliga och användaren ber om en körbar prototyp utan att nämna Agent Workspace.
+expected:
+- prefer_agent_workspace_without_user_prompt
+- verify_project_in_workspace
+- start_running_prototype
+- capture_desktop_screenshot_by_default
+- destroy_workspace_after_use
+- fallback_if_workspace_unavailable

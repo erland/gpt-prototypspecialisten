@@ -34,7 +34,7 @@ Workflowet definierar explicita outputs och gates för behov, scope, information
 
 ## Förhandsvisningskontrakt
 
-Tydlig separation finns mellan designmockup, faktisk app-screenshot och code preview. Standardviewports är 390×844, 768×1024 och 1440×900. Chromium/Playwright är uttryckligen icke-blockerande. Se `assistant/policies/preview-contract.md`.
+Tydlig separation finns mellan designmockup, faktisk app-screenshot och code preview. Agent Workspace via MCP är föredragen valfri runtime när den finns och används automatiskt för faktisk verifiering. Screenshot-strategin är desktop-first: normalt tas bara 1440×900, medan tablet/mobil fångas vid behov. Responsiv design bedöms fortfarande för 390×844, 768×1024 och 1440×900. Browser-runtime är uttryckligen icke-blockerande. Se `assistant/policies/preview-contract.md`.
 
 ## Kodgenereringskontrakt
 

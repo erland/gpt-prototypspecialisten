@@ -48,3 +48,22 @@ def test_approved_rc_recommends_stable_release():
     status = yaml.safe_load((ROOT / 'project-status.yaml').read_text(encoding='utf-8'))
     assert status['release']['status'] == 'release_candidate'
     assert status['next_step']['recommended'] == 'stable_release'
+
+
+def test_custom_gpt_instruction_stays_within_configured_limit():
+    cfg = load_cfg()
+    instruction = (ROOT / cfg['instructions']['canonical']).read_text(encoding='utf-8')
+    assert len(instruction) <= cfg['runtime']['custom_gpt']['instruction']['max_characters']
+
+
+def test_agent_workspace_is_preferred_but_optional():
+    cfg = load_cfg()
+    instruction = (ROOT / cfg['instructions']['canonical']).read_text(encoding='utf-8')
+    preview = (ROOT / 'assistant/policies/preview-contract.md').read_text(encoding='utf-8')
+    external = cfg['capabilities']['requirements']['external_tools']
+    assert external['level'] == 'optional'
+    assert 'Agent Workspace' in external['reason']
+    assert 'Agent Workspace' in instruction
+    assert 'användas automatiskt' in instruction
+    assert 'desktop-screenshot' in instruction
+    assert 'desktop-first' in preview
