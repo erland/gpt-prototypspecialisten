@@ -49,8 +49,8 @@ capabilities:
       level: optional
       preferred_protocols:
       - mcp
-      reason: Kan senare användas för browser-rendering eller deployment men får inte
-        vara kärnberoende.
+      reason: Agent Workspace via MCP är föredragen för faktisk build, start och browser-rendering
+        när den är installerad och konfigurerad, men får inte vara kärnberoende.
     image_generation:
       level: recommended
       reason: Ger tidiga visuella mockups när riktig browser-rendering saknas.
