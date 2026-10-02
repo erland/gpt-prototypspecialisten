@@ -1,0 +1,7 @@
+id: preview-extra-viewports-conditional
+purpose: Säkerställa att extra screenshots bara tas när de ger tydligt värde.
+input: En prototyp har responsiv förändring, känd mobilrisk eller användaren ber uttryckligen om mobil/tablet.
+expected:
+- capture_relevant_extra_viewport
+- avoid_unrelated_screenshots
+- explain_or_validate_responsive_issue
