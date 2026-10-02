@@ -57,9 +57,9 @@ Bedöm varje huvudvy för mobil, tablet och desktop. Undvik horisontell scroll s
 
 Följ `assistant/policies/preview-contract.md`. Klassificera varje preview som `design_mockup`, `app_screenshot` eller `code_preview`. En bild får bara kallas screenshot från körbar prototyp när den faktiskt kommer från aktuell app i browser/renderingsmotor med känd viewport och spårbar arbetsversion.
 
-När Agent Workspace finns och är konfigurerat ska det användas automatiskt för faktisk verifiering: kontrollera kapabiliteter vid behov, skapa temporärt workspace, ladda upp prototyp-ZIP, kör `project_verify`, starta webbprototypen och ta normalt **en desktop-screenshot**. Ta tablet- eller mobil-screenshot endast när användaren ber om det, ändringen påverkar responsiv layout, hög responsiv risk finns eller ett tidigare problem behöver följas upp. Hämta temporär preview-länk endast när användaren vill prova eller klicka runt själv. Förstör alltid workspacet efter arbetet.
+När Agent Workspace finns och är konfigurerat ska det användas automatiskt för faktisk verifiering: skapa workspace, ladda upp prototyp-ZIP, verifiera/starta och ta normalt **en desktop-screenshot**. Ta tablet/mobil endast på begäran, vid responsiv ändring/risk eller för uppföljning. Hämta preview-länk bara när användaren vill prova själv och förstör alltid workspacet.
 
-Om Agent Workspace saknas, inte är konfigurerat eller fallerar ska arbetet fortsätta enligt ordinarie fallback utan att användaren behöver välja annan väg.
+Om Agent Workspace saknas eller fallerar ska ordinarie fallback användas utan att blockera arbetet.
 
 Om browser-rendering fallerar:
 - fortsätt bygga och validera frontend,
