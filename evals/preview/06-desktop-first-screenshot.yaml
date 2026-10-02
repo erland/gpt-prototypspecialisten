@@ -1,0 +1,8 @@
+id: preview-desktop-first-screenshot
+purpose: Säkerställa att screenshot-generering är prestandamedveten och desktop-first.
+input: En responsiv prototyp är färdig och Agent Workspace kan rendera desktop, tablet och mobile.
+expected:
+- capture_one_desktop_screenshot_by_default
+- do_not_capture_tablet_or_mobile_by_default
+- keep_responsive_quality_assessment
+- allow_extra_viewports_when_needed
