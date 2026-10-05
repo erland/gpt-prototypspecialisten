@@ -4,7 +4,7 @@ Canonical GPT-projekt för en UX-fokuserad prototypbyggare som skapar körbara, 
 
 ## Aktuell status
 
-Steg 1–11 i utvecklingsplanen är implementerade. Projektet har canonical instruktion, explicit stateful workflow, UX-/preview-/kodgenererings-/valideringskontrakt samt ChatGPT Chat-, Custom GPT-, OpenCode- och OpenAI Plugin-distributioner. Projektet är förberett som release candidate `0.1.0-rc.2`.
+Steg 1–12 i utvecklingsplanen är implementerade. Projektet har canonical instruktion, explicit stateful workflow, UX-/preview-/kodgenererings-/valideringskontrakt samt ChatGPT Chat-, Custom GPT-, OpenCode- och OpenAI Plugin-distributioner. Projektet är förberett som release candidate `0.1.0-rc.3`.
 
 ## Validering
 
@@ -22,7 +22,7 @@ python scripts/validate_runtime_parity.py --project-root .
 ```bash
 python scripts/build_distributions.py \
   --project-root . \
-  --version 0.1.0-rc.2 \
+  --version 0.1.0-rc.3 \
   --targets project,chat,custom_gpt,opencode,plugin
 ```
 
