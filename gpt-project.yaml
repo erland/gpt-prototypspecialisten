@@ -333,7 +333,7 @@ release:
     workflow: .github/workflows/release.yml
     version_source: github.event.release.tag_name
   candidate:
-    version: 0.1.0-rc.2
+    version: 0.1.0-rc.3
     parity_validator: scripts/validate_runtime_parity.py
     readiness_validator: scripts/validate_release_candidate.py
     active_runtimes:
