@@ -4,11 +4,11 @@ project:
   name: Prototypspecialisten
 plan:
   path: docs/development-plan.md
-  total_steps: 11
+  total_steps: 12
 progress:
   current_phase: release
-  current_step: 11
-  last_completed_step: 11
+  current_step: 12
+  last_completed_step: 12
   completed_steps:
   - 1
   - 2
@@ -21,18 +21,19 @@ progress:
   - 9
   - 10
   - 11
+  - 12
   skipped_steps: []
   inserted_steps:
   - 11
+  - 12
 state:
   overall: pass
   blocking_issues: []
   warnings: []
 next_step:
-  recommended: stable_release
-  title: Publicera stabil release
-  reason: Release candidate 0.1.0-rc.2 är godkänd; nästa steg enligt RC-policyn är
-    stabil release efter praktisk smoke test.
+  recommended: release_candidate
+  title: Publicera och smoke-testa 0.1.0-rc.3
+  reason: OpenAI Plugin-stödet är implementerat och CI-validerat efter 0.1.0-rc.2. Nästa kandidat måste därför byggas från den nya fyr-runtime-snapshoten innan stabil release.
 resume:
   supported: true
   required_files:
@@ -41,13 +42,12 @@ resume:
   - docs/development-plan.md
   - STATUS.md
   - PROJECT.md
-  human_readable_status: Steg 11 klart. Projektet är release candidate 0.1.0-rc.2;
-    nästa rekommenderade steg är stabil release efter praktisk smoke test.
+  human_readable_status: Steg 12 klart. OpenAI Plugin är CI-validerad tillsammans med övriga aktiva runtimes; nästa rekommenderade steg är 0.1.0-rc.3 och praktisk smoke test.
 validation:
   last_result: pass
 project_hygiene:
   last_result: pass
 release:
-  status: release_candidate
-  version: 0.1.0-rc.2
+  status: release_candidate_pending
+  version: 0.1.0-rc.3
   runtime_parity: pass
