@@ -31,9 +31,9 @@ state:
   blocking_issues: []
   warnings: []
 next_step:
-  recommended: release_candidate
-  title: Publicera och smoke-testa 0.1.0-rc.3
-  reason: OpenAI Plugin-stödet är implementerat och CI-validerat efter 0.1.0-rc.2. Nästa kandidat måste därför byggas från den nya fyr-runtime-snapshoten innan stabil release.
+  recommended: stable_release
+  title: Smoke-testa 0.1.0-rc.3 och publicera stabil release
+  reason: OpenAI Plugin-stödet är implementerat och CI-validerat i 0.1.0-rc.3-snapshoten; nästa steg enligt RC-policyn är praktisk smoke test och därefter stabil release.
 resume:
   supported: true
   required_files:
@@ -48,6 +48,6 @@ validation:
 project_hygiene:
   last_result: pass
 release:
-  status: release_candidate_pending
+  status: release_candidate
   version: 0.1.0-rc.3
   runtime_parity: pass
