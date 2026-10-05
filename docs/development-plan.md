@@ -87,3 +87,20 @@ Steg 10 slutför planen. När parity-, distributions-, hygiene- och RC-gates pas
 ## Release candidate efter korrigering
 
 `0.1.0-rc.2` ersätter `0.1.0-rc.1` som aktuell release candidate.
+
+
+## Steg 12 – OpenAI Plugin-distribution
+
+**Mål:** aktivera en skills-first OpenAI Plugin peer runtime från samma canonical kontrakt utan att skapa syntetiska runtime-tools.
+
+**Klart när:**
+- canonical skill-kontrakt och Plugin-template finns,
+- Plugin byggs som `prototypspecialisten-plugin-<version>.zip`,
+- filesystem read/write, code execution och persistent workspace förblir canonical kärnkrav,
+- Agent Workspace/browser rendering förblir optional integrations med fallback,
+- Pluginens runtime-contract har samma canonical capability/artifact/workspace/tool-projektion som övriga aktiva runtimes,
+- CI, distributionsvalidering och runtime parity passerar.
+
+## Release candidate efter Plugin-stöd
+
+Plugin-förändringen sker efter snapshoten för `0.1.0-rc.2`. Nästa release candidate ska därför vara `0.1.0-rc.3` så att praktisk smoke test omfattar Chat, Custom GPT, OpenCode och OpenAI Plugin från samma snapshot.
