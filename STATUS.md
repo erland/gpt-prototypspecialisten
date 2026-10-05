@@ -1,11 +1,11 @@
 # Status – Prototypspecialisten
 
-- Steg 1–10: klara
-- Senast klart: Runtime parity, hygiene och RC
+- Steg 1–12: klara
+- Senast klart: OpenAI Plugin-distribution och fyr-runtime parity
 - Validering: PASS
 - Runtime parity: PASS
 - Hygiene: PASS
-- Release candidate: `0.1.0-rc.2`
-- Nästa planerade steg: inget
+- Nästa release candidate: `0.1.0-rc.3`
+- Nästa planerade steg: praktiskt smoke-testa `0.1.0-rc.3` och därefter publicera stabil release
 
-Projektet är redo för praktisk provkörning som release candidate. ChatGPT Chat, Custom GPT och OpenCode byggs från samma canonicala beteendekälla och har validerad kontraktsparitet.
+OpenAI Plugin är implementerad och CI-validerad med `equivalent_runtime_dependent` parity. ChatGPT Chat, Custom GPT, OpenCode och OpenAI Plugin byggs från samma canonicala beteendekälla. Eftersom Plugin-stödet tillkom efter `0.1.0-rc.2` ska nästa praktiska provkörning göras som `0.1.0-rc.3`.

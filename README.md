@@ -4,7 +4,7 @@ Canonical GPT-projekt för en UX-fokuserad prototypbyggare som skapar körbara, 
 
 ## Aktuell status
 
-Steg 1–10 i utvecklingsplanen är implementerade. Projektet har canonical instruktion, explicit stateful workflow, UX-/preview-/kodgenererings-/valideringskontrakt samt validerade ChatGPT Chat-, Custom GPT- och OpenCode-distributioner. Projektet är förberett som release candidate `0.1.0-rc.2`.
+Steg 1–12 i utvecklingsplanen är implementerade. Projektet har canonical instruktion, explicit stateful workflow, UX-/preview-/kodgenererings-/valideringskontrakt samt ChatGPT Chat-, Custom GPT-, OpenCode- och OpenAI Plugin-distributioner. Projektet är förberett som release candidate `0.1.0-rc.3`.
 
 ## Validering
 
@@ -22,8 +22,8 @@ python scripts/validate_runtime_parity.py --project-root .
 ```bash
 python scripts/build_distributions.py \
   --project-root . \
-  --version 0.1.0-rc.2 \
-  --targets project,chat,custom_gpt,opencode
+  --version 0.1.0-rc.3 \
+  --targets project,chat,custom_gpt,opencode,plugin
 ```
 
 Genererade runtimepaket finns i `dist/`. Chat-distributionen kan bifogas i en ChatGPT-konversation. Custom GPT-distributionen innehåller Builder-underlag med instruktion, starters, capability-rekommendationer och runtime-kontrakt.
@@ -60,6 +60,10 @@ OpenCode-distributionen genereras från samma canonical instruktion och är work
 
 OpenCode-paketet är avsett att läggas i en repository/workspace där prototypen ska byggas. Det använder samma canonical beteende som Chat och Custom GPT men kan utnyttja runtimeens filredigering och shell för faktisk implementation och deterministisk validering.
 
+## OpenAI Plugin
+
+OpenAI Plugin är en skills-first peer distribution med `equivalent_runtime_dependent` parity. Full canonical prototypimplementation kräver att hosten erbjuder writable filesystem, persistent workspace och code execution. Agent Workspace, PWA Preview och browser-rendering är valfria förstärkningar och får inte bli kärnberoenden. Pluginen deklarerar inga påhittade script-tools; den använder hostens faktiska projekt- och exekveringskapabiliteter.
+
 
 ## Evals och modellrobusthet
 
@@ -68,12 +72,12 @@ Evalpaketet täcker idé, skärmdump, URL, responsiv översättning, formulär/f
 
 ## Runtime parity och RC
 
-Slutlig parity-gate jämför canonicala kontrakt mellan Chat, Custom GPT och OpenCode. RC-readiness kräver att alla plansteg är klara, att inga varningar eller blockerare finns kvar och att slutlig hygiene passerar. Se `docs/runtime-parity-rc.md`.
+Slutlig parity-gate jämför canonicala kontrakt mellan Chat, Custom GPT, OpenCode och OpenAI Plugin. RC-readiness kräver att alla plansteg är klara, att inga varningar eller blockerare finns kvar och att slutlig hygiene passerar. Se `docs/runtime-parity-rc.md`.
 
 ## GitHub Actions och release
 
 Projektet är GitHub-redo enligt GPT Byggarens standard. CI finns i `.github/workflows/ci.yml` och körs vid push, pull request och manuell dispatch. Den bygger automatiskt alla targets i `build_system.targets` med den reserverade CI-versionen `0.0.0-ci`.
 
-GitHub Release-byggning finns i `.github/workflows/release.yml`. När en release publiceras härleds versionsnumret från release-taggen och projekt-ZIP, Chat ZIP, Custom GPT ZIP och OpenCode ZIP byggs, valideras och bifogas tillsammans med `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json`.
+GitHub Release-byggning finns i `.github/workflows/release.yml`. När en release publiceras härleds versionsnumret från release-taggen och projekt-ZIP, Chat ZIP, Custom GPT ZIP, OpenCode ZIP och OpenAI Plugin ZIP byggs, valideras och bifogas tillsammans med `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json`.
 
 Se `docs/github-automation.md` för detaljer.

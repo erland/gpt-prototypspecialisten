@@ -36,6 +36,29 @@ jobs:
         run: python scripts/build_distributions.py --project-root . --version 0.0.0-ci
       - name: Validate distributions
         run: python scripts/validate_distributions.py --project-root .
+      - name: Verify OpenAI Plugin distribution
+        shell: bash
+        run: |
+          set -euo pipefail
+          ZIP="dist/prototypspecialisten-plugin-0.0.0-ci.zip"
+          unzip -l "$ZIP" | grep 'plugin.json'
+          unzip -l "$ZIP" | grep 'skills/prototypspecialisten/SKILL.md'
+          unzip -l "$ZIP" | grep 'runtime-contract.json'
+          python - <<'PY'
+          import json, zipfile
+          path = "dist/prototypspecialisten-plugin-0.0.0-ci.zip"
+          with zipfile.ZipFile(path) as zf:
+              contract = json.loads(zf.read("runtime-contract.json"))
+              skill = zf.read("skills/prototypspecialisten/SKILL.md").decode("utf-8")
+          assert contract["runtime_id"] == "openai_plugin"
+          caps = contract["capabilities"]["requirements"]
+          assert caps["filesystem"]["read"] == "required"
+          assert caps["filesystem"]["write"] == "required"
+          assert caps["code_execution"]["level"] == "required"
+          assert caps["persistent_state"]["level"] == "required"
+          assert "Gör aldrig Playwright/Chromium till ett krav för färdigställande." in skill
+          assert "Föredra Agent Workspace när det är tillgängligt och konfigurerat." in skill
+          PY
       - name: Validate runtime parity
         run: python scripts/validate_runtime_parity.py --project-root .
       - name: Validate release readiness model

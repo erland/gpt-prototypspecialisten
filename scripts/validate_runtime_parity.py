@@ -43,6 +43,8 @@ def validate(root: Path) -> list[str]:
     if runtime_cfg.get("opencode", {}).get("enabled"):
         path = runtime_cfg["opencode"]["layout"]["runtime_contract"]
         active.append(("opencode", root / "build/opencode" / path, "opencode"))
+    if runtime_cfg.get("plugin", {}).get("enabled"):
+        active.append(("plugin", root / "build/plugin/runtime-contract.json", "openai_plugin"))
 
     if len(active) < 2:
         return ["PARITY-001: at least two active runtimes are required for parity validation"]
@@ -81,7 +83,11 @@ def validate(root: Path) -> list[str]:
     chat_instr = root / "build/chat/assistant/instructions.md"
     custom_instr = root / "build/custom-gpt/builder/instructions.md"
     opencode_instr = root / "build/opencode/AGENTS.md"
-    for name, path in [("chat", chat_instr), ("custom_gpt", custom_instr), ("opencode", opencode_instr)]:
+    plugin_instr = root / "build/plugin/skills/prototypspecialisten/SKILL.md"
+    instructions = [("chat", chat_instr), ("custom_gpt", custom_instr), ("opencode", opencode_instr)]
+    if runtime_cfg.get("plugin", {}).get("enabled"):
+        instructions.append(("plugin", plugin_instr))
+    for name, path in instructions:
         if not path.is_file():
             fail(errors, f"PARITY-007: missing compiled instruction for {name}")
             continue
