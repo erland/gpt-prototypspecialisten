@@ -25,7 +25,7 @@ python scripts/validate_runtime_parity.py --project-root .
 
 En release candidate får bara skapas när:
 
-- alla tio plansteg är klara,
+- alla plansteg är klara,
 - inga blockerare eller varningar återstår,
 - senaste validering är `pass`,
 - slutlig project hygiene är `pass`,
@@ -36,12 +36,12 @@ En release candidate får bara skapas när:
 Kör efter RC-bygget:
 
 ```bash
-python scripts/validate_release_candidate.py --project-root . --version 0.1.0-rc.2
+python scripts/validate_release_candidate.py --project-root . --version 0.1.0-rc.3
 ```
 
 ## Release candidate
 
-Aktuell release candidate är `0.1.0-rc.2`. Plugin-stödet utökar runtimeuppsättningen med OpenAI Plugin och ska praktiskt provköras tillsammans med Chat-, Custom GPT- och OpenCode-distributionerna innan en eventuell `0.1.0`-release.
+Aktuell release candidate är `0.1.0-rc.3`. Plugin-stödet utökar runtimeuppsättningen med OpenAI Plugin och ska praktiskt provköras tillsammans med Chat-, Custom GPT- och OpenCode-distributionerna innan en eventuell `0.1.0`-release.
 
 
 ## OpenAI Plugin parity
