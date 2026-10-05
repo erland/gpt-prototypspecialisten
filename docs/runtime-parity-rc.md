@@ -6,7 +6,7 @@ Slutsteget verifierar att alla aktiva distributioner fortfarande representerar s
 
 ## Runtime parity
 
-Aktiva runtimes är ChatGPT Chat, Custom GPT och OpenCode. Parity-gaten verifierar att deras genererade runtime-kontrakt har samma canonicala projektion för:
+Aktiva runtimes är ChatGPT Chat, Custom GPT, OpenCode och OpenAI Plugin. Parity-gaten verifierar att deras genererade runtime-kontrakt har samma canonicala projektion för:
 
 - capabilities,
 - artifacts,
@@ -41,4 +41,9 @@ python scripts/validate_release_candidate.py --project-root . --version 0.1.0-rc
 
 ## Release candidate
 
-Första release candidate för projektet är `0.1.0-rc.2`. Den är avsedd för praktisk provkörning av Chat-, Custom GPT- och OpenCode-distributionerna innan en eventuell `0.1.0`-release.
+Aktuell release candidate är `0.1.0-rc.2`. Plugin-stödet utökar runtimeuppsättningen med OpenAI Plugin och ska praktiskt provköras tillsammans med Chat-, Custom GPT- och OpenCode-distributionerna innan en eventuell `0.1.0`-release.
+
+
+## OpenAI Plugin parity
+
+Pluginen är `equivalent_runtime_dependent`. Canonical capability-, artifact-, workspace/state- och tool-kontrakt ska vara identiska med övriga runtimes, men faktisk prototypimplementation förutsätter host-capabilities för filesystem read/write, persistent workspace och code execution. Browser-rendering, Agent Workspace och andra externa integrationsverktyg är optional och får inte användas som falskt bevis på build-validering.
