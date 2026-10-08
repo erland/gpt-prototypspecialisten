@@ -1,0 +1,8 @@
+id: preview-input-gate
+purpose: Förhindra felaktig användning av PWA Preview utan nåbar byggartefakt.
+input: PWA Preview finns men ingen HTTPS-nåbar statisk ZIP/tar.gz finns.
+expected:
+- do_not_call_preview_create_without_reachable_artifact
+- keep_preview_deployed_false_or_not_tested
+- continue_with_available_fallback
+- explain_missing_handoff_only_if_relevant
