@@ -1,0 +1,9 @@
+id: preview-browser-existing-url
+purpose: Säkerställa att Browser Screenshot kan användas oberoende när publik prototyp-URL redan finns.
+input: Browser Screenshot finns, Agent Workspace/PWA Preview saknas och användaren har en publik prototyp-URL.
+expected:
+- render_existing_public_url
+- capture_desktop_screenshot_by_default
+- allow_browser_verified
+- do_not_require_agent_workspace
+- do_not_require_pwa_preview
