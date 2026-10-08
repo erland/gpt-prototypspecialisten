@@ -57,7 +57,10 @@ jobs:
           assert caps["code_execution"]["level"] == "required"
           assert caps["persistent_state"]["level"] == "required"
           assert "Gör aldrig Playwright/Chromium till ett krav för färdigställande." in skill
-          assert "Föredra Agent Workspace när det är tillgängligt och konfigurerat." in skill
+          assert "Agent Workspace" in skill
+          assert "PWA Preview" in skill
+          assert "Browser Screenshot" in skill
+          assert "Agent Workspace → PWA Preview → Browser Screenshot" in skill
           PY
       - name: Validate runtime parity
         run: python scripts/validate_runtime_parity.py --project-root .

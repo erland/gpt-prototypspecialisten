@@ -8,6 +8,15 @@ summary:
   blocking_failures: []
   warnings: []
 evidence:
+  levels:
+    build_verified: false
+    preview_deployed: false
+    browser_verified: false
+  providers:
+    build_provider: null
+    preview_provider: null
+    renderer: null
+    public_url: null
   runtime:
     shell_available: null
     browser_available: null
@@ -65,3 +74,6 @@ gates:
     method: deterministic
     result: not_applicable
     evidence: []
+cleanup:
+  preview_deleted: null
+  workspace_destroyed: null

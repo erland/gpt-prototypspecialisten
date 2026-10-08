@@ -1,157 +1,119 @@
 # Förhandsvisningskontrakt
 
-Detta kontrakt styr hur Prototypspecialisten planerar, skapar, märker och validerar visuella förhandsvisningar. Målet är att ge användaren snabb visuell återkoppling utan att blanda ihop designmockups med faktisk rendering av den körbara prototypen.
+Detta kontrakt styr hur Prototypspecialisten planerar, skapar, märker och validerar visuella förhandsvisningar. Externa verktyg är **progressive enhancement**: de ska användas när relevanta kapabiliteter finns men får aldrig vara ett kärnberoende.
 
 ## 1. Förhandsvisningstyper
 
-Endast följande typer får användas:
-
 ### `design_mockup`
-
-En genererad eller manuellt komponerad visuell designförhandsvisning. Den visar avsedd struktur, hierarki, navigation och visuellt uttryck, men är **inte bevis** på hur den körbara appen faktiskt renderar.
-
-Måste märkas tydligt som exempelvis **Designmockup** eller **Genererad mockup**.
+Genererad eller manuellt komponerad designbild. Den visar avsedd struktur och visuellt uttryck men är inte bevis på faktisk rendering. Märk som **Designmockup – inte faktisk app-rendering**.
 
 ### `app_screenshot`
-
-En bild fångad från den faktiskt körande prototypen i en browser/renderingsmotor. Den får endast beskrivas som faktisk screenshot när den kommer från den byggda appen.
-
-Måste ha spårbar information om viewport och källa.
+Bild fångad från den faktiskt körande prototypen i browser/renderingsmotor. Kräver känd viewport och spårbar källa/arbetsversion. Märk som **Screenshot från körbar prototyp**.
 
 ### `code_preview`
-
-En enklare strukturell förhandsvisning baserad på den genererade implementationen när varken bildgenerering eller browser-rendering är tillgänglig. Den kan exempelvis vara en beskrivning av layout och komponenter. Den får aldrig beskrivas som screenshot.
+Strukturell förhandsvisning baserad på implementationen när browser-rendering saknas. Märk som **Strukturell kodförhandsvisning – ingen browser-screenshot**.
 
 ## 2. Standardviewports
 
-Responsiv design och kvalitetsbedömning utgår, om användaren inte anger annat, från:
-
+Responsiv bedömning använder normalt:
 - `mobile`: 390 × 844 px
 - `tablet`: 768 × 1024 px
 - `desktop`: 1440 × 900 px
 
-**Screenshot-strategin är däremot desktop-first.** Ta normalt endast en faktisk desktop-screenshot per relevant iteration. Tablet- eller mobil-screenshot tas endast när användaren ber om det, en ändring påverkar responsiv layout, hög responsiv risk finns eller ett tidigare problem behöver följas upp.
+Screenshot-strategin är desktop-first. Ta normalt en faktisk desktop-screenshot per relevant iteration. Tablet/mobil tas endast på uttrycklig begäran, vid responsiv ändring/risk eller för uppföljning. Responsiv kvalitet ska ändå bedömas för alla relevanta formfaktorer.
 
-Bredden är kontraktsbärande. Höjden får justeras om innehållet kräver helsidesfångst eller runtime har andra begränsningar.
+## 3. Kapabilitetsbaserad preview-pipeline
 
-Om en målplattform uttryckligen avgränsas får övriga viewports utelämnas från bedömningen, men detta ska dokumenteras i preview-manifestet.
+Välj efter tillgänglig kapabilitet, inte efter krav på en specifik plugin.
 
-## 3. Tidig mockup
+### Build provider
+Använd för deterministisk verifiering och build.
+- föredragen extern provider: **Agent Workspace**
+- fallback: hostens egna filesystem/code execution/shell
 
-Tidig mockup används före eller under implementation när visuell återkoppling sannolikt minskar risken att bygga fel lösning.
+Agent Workspace används primärt för workspace, projektverifiering/build och temporär buildartefakt. Det ska inte antas starta webappen eller ta screenshots.
 
-Mockupen ska härledas från samma prototypspecifikation som implementationen och visa minst:
+### Preview provider
+Använd för temporär publik HTTPS-hosting av en redan byggd statisk artefakt.
+- föredragen extern provider: **PWA Preview**
+- alternativ: redan existerande publik deployment/preview
 
-- huvudsaklig informationshierarki,
-- navigation,
-- primär handling,
-- centrala dataobjekt,
-- responsiv omprioritering för relevanta viewports.
+PWA Preview ska bara användas när dess input faktiskt kan tillhandahållas, normalt en HTTPS-nåbar ZIP/tar.gz med byggd statisk app.
 
-För en normal flerplattformslösning bör användaren kunna bedöma mobil, tablet och desktop. Det är tillåtet att visa dem som separata bilder eller i en samlad jämförelse, så länge varje viewport går att identifiera.
+### Rendering provider
+Använd för faktisk browser-rendering.
+- föredragen extern provider: **Browser Screenshot**
+- alternativ: annan verklig browser-runtime
 
-## 4. Faktisk browser-rendering
+Browser Screenshot kräver en publik HTTP(S)-URL. Det får inte anropas mot en lokal eller intern workspace-URL som tjänsten inte kan nå.
 
-Browser-rendering är en förbättring, inte ett kärnberoende.
+## 4. Normal kedja när alla tre finns
 
-För att en bild ska klassificeras som `app_screenshot` ska följande vara sant:
+1. verifiera/build prototypen i Agent Workspace,
+2. skapa/hämta temporär HTTPS-länk till buildartefakten,
+3. skapa temporär PWA Preview från artefakten,
+4. rendera preview-URL:en med Browser Screenshot,
+5. ta normalt en desktop-screenshot,
+6. gör UX-/responsiv bedömning,
+7. radera preview när den inte längre ska delas,
+8. förstör alltid temporärt Agent Workspace.
 
-1. prototypen har byggts eller startats från den aktuella källkoden,
-2. sidan har laddats i en verklig browser eller kompatibel renderingsmotor,
-3. viewport är känd,
-4. screenshoten kommer från den sidan,
-5. källrevision eller motsvarande arbetsversion går att identifiera i projektets preview-manifest.
+Om användaren vill prova previewn själv får previewn leva kvar enligt tjänstens TTL; workspacet ska ändå förstöras när dess artefakt inte längre behövs.
 
-Om dessa villkor inte kan styrkas ska bilden klassificeras som `design_mockup` eller `code_preview`.
+## 5. Partiella kombinationer
 
-## 5. Agent Workspace och browser-runtime
+- **Agent Workspace + PWA Preview:** build/verifiering + körbar preview; screenshot är valfri/otestad.
+- **Agent Workspace + Browser Screenshot:** build kan verifieras, men screenshot kräver separat publik URL. Hitta inte på en direktkoppling.
+- **PWA Preview + Browser Screenshot:** använd när en byggd artefakt redan kan exponeras via HTTPS.
+- **endast Agent Workspace:** verifiera/build och leverera artefakt; preview/browser kan vara `not_tested`.
+- **endast PWA Preview:** använd bara om lämplig byggartefakt-URL redan finns.
+- **endast Browser Screenshot:** använd mot befintlig publik prototyp-URL.
+- **inga externa verktyg:** fortsätt kärnflödet och använd hostens validering samt designmockup/code preview.
 
-När Agent Workspace är tillgängligt och konfigurerat är det föredragen runtime för faktisk verifiering. Användaren ska inte behöva säga "använd Agent Workspace" separat.
+Ett saknat eller misslyckat steg ska inte automatiskt göra andra steg ogiltiga.
 
-Normalt flöde:
+## 6. Krav för `app_screenshot`
 
-1. kontrollera profil/kapabiliteter vid behov,
-2. skapa temporärt workspace,
-3. ladda upp prototypens ZIP,
-4. kör projektverifiering,
-5. starta prototypen,
-6. ta normalt en desktop-screenshot,
-7. ta extra viewport-screenshots endast enligt desktop-first-regeln ovan,
-8. hämta preview-länk endast när användaren vill prova prototypen själv,
-9. förstör alltid workspacet.
+För att en bild ska klassificeras som `app_screenshot` ska:
+1. aktuell källversion ha byggts/startats,
+2. den publika sidan ha laddats i verklig browser/renderingsmotor,
+3. viewport vara känd,
+4. screenshoten komma från den sidan,
+5. source revision och providers kunna identifieras.
 
-Om Agent Workspace saknas, inte är konfigurerat eller ett anrop misslyckas ska kärnleveransen fortsätta med fallback.
+Annars används `design_mockup` eller `code_preview`.
 
-Playwright, Chromium eller motsvarande får användas när runtime stödjer det, men får aldrig vara ett krav för att färdigställa prototypen.
+## 7. Evidens och provenance
 
-Browser-rendering får som mest blockera statusen för **faktisk screenshot**, inte:
-
-- UX-specifikation,
-- kodgenerering,
-- frontend-build,
-- exempeldata,
-- statisk deployment,
-- projektleverans.
-
-Förväntad felhantering:
-
-1. registrera renderingsförsöket som misslyckat,
-2. behåll deterministisk build-validering som primär teknisk gate,
-3. använd tydligt märkt designmockup om bildgenerering finns,
-4. annars använd code preview och beskriv vad som inte kunde visuellt verifieras,
-5. fortsätt leveransen om övriga kvalitetsgates passerar.
-
-Försök inte installera systempaket eller kringgå runtime-sandbox om detta inte uttryckligen stöds av miljön och behövs för användarens mål.
-
-## 6. Märkning i chatten och leveransen
-
-Varje visuell förhandsvisning ska kunna besvaras med frågan: **är detta vad appen faktiskt renderade, eller en designbild?**
-
-Använd följande språk konsekvent:
-
-- `design_mockup`: "Designmockup – inte faktisk app-rendering"
-- `app_screenshot`: "Screenshot från körbar prototyp"
-- `code_preview`: "Strukturell kodförhandsvisning – ingen browser-screenshot"
-
-Blanda inte flera typer utan separata etiketter.
-
-## 7. Preview-manifest
-
-När prototypprojektet innehåller eller levererar förhandsvisningar ska ett maskinläsbart `preview-manifest.yaml` kunna skapas med följande information per preview:
-
-- `id`
-- `type`: `design_mockup`, `app_screenshot` eller `code_preview`
-- `viewport`
-- `source`
+Preview-manifestet ska kunna ange:
+- `build_provider`
+- `preview_provider`
+- `renderer`
+- publik `url` när sådan finns
 - `source_revision`
-- `status`
-- `notes`
+- viewport
+- status och notes
 
-För browser-rendering ska även browser/renderingsmotor anges när den är känd.
+Rapportera separat:
+- `build_verified`
+- `preview_deployed`
+- `browser_verified`
 
-## 8. Responsiv jämförelse
+Ingen av dessa får härledas enbart från en annan.
 
-Minst en central vy ska normalt kunna **bedömas** i alla tre referensbredder före slutleverans. Detta innebär inte att tre screenshots måste tas. Kod-/layoutgranskning, responsiv strategi och riktade browserkontroller kan kombineras; faktisk screenshot är desktop som standard och övriga viewports fångas vid behov.
+## 8. Felhantering
 
-Bedömningen ska kontrollera att:
+Browser-/previewfel är i normalfallet icke-blockerande om build och huvudflöden i övrigt passerar.
 
-- navigationen är användbar,
-- primära handlingar fortfarande är synliga eller lätt åtkomliga,
-- tät information får lämplig mobilrepresentation,
-- ingen central funktion kräver hover-only-beteende,
-- text och kontroller inte kapas,
-- oavsiktlig horisontell scroll undviks.
+Vid fel:
+1. registrera vilket steg som misslyckades,
+2. behåll tidigare verifierad evidens,
+3. fortsätt med nästa möjliga fallback,
+4. påstå inte att utebliven kontroll har passerat,
+5. installera inte systempaket eller kringgå sandbox om det inte uttryckligen stöds.
 
-Om faktisk browser-rendering saknas ska dessa punkter valideras mot responsiv strategi och implementation, och den visuella osäkerheten ska framgå.
+## 9. Responsiv jämförelse
 
-## 9. Gate för Steg 3
+Minst en central vy ska normalt bedömas för mobil, tablet och desktop. Tre screenshots krävs inte. Kod-/layoutgranskning, responsiv strategi och riktade browserkontroller får kombineras.
 
-Förhandsvisningskontraktet är operationaliserat när:
-
-- de tre preview-typerna är definierade,
-- standardviewports är explicita,
-- faktisk screenshot kräver verifierbar app-rendering,
-- mockupmärkning är obligatorisk,
-- Playwright/Chromium-fel har icke-blockerande fallback,
-- preview-manifest har en mall,
-- evalfall täcker felmärkning, viewportkrav och browser-fallback.
+Kontrollera minst navigation, primära actions, informationsdensitet, touch, avsaknad av hover-only för centrala funktioner, text/controls som inte kapas och undvikande av oavsiktlig horisontell scroll.

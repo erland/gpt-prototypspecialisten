@@ -1,10 +1,11 @@
-id: preview-agent-workspace-auto
-purpose: Säkerställa att Agent Workspace används automatiskt när det är installerat och konfigurerat.
-input: Agent Workspace-verktygen är tillgängliga och användaren ber om en körbar prototyp utan att nämna Agent Workspace.
+id: preview-capability-pipeline-auto
+purpose: Säkerställa att tillgängliga prototypverktyg används automatiskt som optional capability providers.
+input: Agent Workspace, PWA Preview och Browser Screenshot är tillgängliga och användaren ber om en körbar prototyp utan att nämna verktygen.
 expected:
-- prefer_agent_workspace_without_user_prompt
-- verify_project_in_workspace
-- start_running_prototype
+- use_agent_workspace_for_build_and_verification
+- obtain_reachable_build_artifact
+- use_pwa_preview_for_public_https_preview
+- use_browser_screenshot_for_actual_rendering
 - capture_desktop_screenshot_by_default
-- destroy_workspace_after_use
-- fallback_if_workspace_unavailable
+- cleanup_temporary_resources
+- keep_all_tools_optional

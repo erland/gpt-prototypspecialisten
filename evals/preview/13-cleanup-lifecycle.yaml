@@ -1,0 +1,8 @@
+id: preview-cleanup-lifecycle
+purpose: Säkerställa korrekt livscykel för temporära resurser.
+input: Agent Workspace och PWA Preview har använts för en preview.
+expected:
+- delete_preview_when_not_needed_for_user_testing
+- keep_preview_until_ttl_when_user_should_try_it
+- destroy_workspace_after_artifact_no_longer_needed
+- record_cleanup_status

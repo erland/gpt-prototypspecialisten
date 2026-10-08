@@ -11,6 +11,11 @@ viewports:
   desktop:
     width: 1440
     height: 900
+providers:
+  build_provider: null
+  preview_provider: null
+  renderer: null
+  public_url: null
 previews:
   - id: main-mobile
     type: design_mockup
@@ -27,9 +32,16 @@ previews:
     status: unavailable
     browser: null
     notes: "Fylls endast när screenshot faktiskt kommer från körbar prototyp."
+evidence:
+  build_verified: false
+  preview_deployed: false
+  browser_verified: false
 rendering:
   browser_rendering_required: false
   last_attempt:
     status: not_attempted
     engine: null
     error: null
+cleanup:
+  preview_deleted: null
+  workspace_destroyed: null
