@@ -34,7 +34,9 @@ Workflowet definierar explicita outputs och gates för behov, scope, information
 
 ## Förhandsvisningskontrakt
 
-Tydlig separation finns mellan designmockup, faktisk app-screenshot och code preview. Agent Workspace via MCP är föredragen valfri runtime när den finns och används automatiskt för faktisk verifiering. Screenshot-strategin är desktop-first: normalt tas bara 1440×900, medan tablet/mobil fångas vid behov. Responsiv design bedöms fortfarande för 390×844, 768×1024 och 1440×900. Browser-runtime är uttryckligen icke-blockerande. Se `assistant/policies/preview-contract.md`.
+Previewverktygen används som **progressive enhancement**. Agent Workspace ansvarar primärt för build/verifiering och temporär artefakt, PWA Preview för temporär publik HTTPS-hosting och Browser Screenshot för faktisk browser-rendering. När alla tre finns är normal kedja **Agent Workspace → PWA Preview → Browser Screenshot**. Partiella kombinationer används när deras verkliga in-/utdata går att koppla ihop, och projektet ska fungera utan någon av dem.
+
+Screenshot-strategin är desktop-first: normalt tas 1440×900, medan tablet/mobil fångas vid behov. Responsiv design bedöms fortfarande för 390×844, 768×1024 och 1440×900. Build, preview och browser-verifiering hålls som separata evidensnivåer. Se `assistant/policies/preview-contract.md`.
 
 ## Kodgenereringskontrakt
 
@@ -42,7 +44,7 @@ React + TypeScript + Vite är standardstack med deterministiska fixtures, tunt m
 
 ## Valideringskontrakt
 
-Build, hosting, huvudflöden, exempeldata, tre formfaktorer, accessibility och UX-review bedöms systematiskt. Se `assistant/policies/validation-quality-gates.md`.
+Build, hosting, huvudflöden, exempeldata, tre formfaktorer, accessibility och UX-review bedöms systematiskt. Optional preview-/browserfel får inte radera tidigare verifierad build. Se `assistant/policies/validation-quality-gates.md`.
 
 ## ChatGPT Chat-runtime
 
@@ -50,34 +52,24 @@ Steg 6 aktiverar och validerar en Chat ZIP från canonical källor. Se `docs/cha
 
 ## Custom GPT-runtime
 
-Steg 7 aktiverar och validerar Builder-paketet utan att flytta kritiskt beteende till Knowledge. Se `docs/custom-gpt-runtime.md`.
+Steg 7 aktiverar och validerar Builder-paketet utan att flytta kritiskt beteende till Knowledge. Installerade prototypplugins används som optional capability providers. Se `docs/custom-gpt-runtime.md`.
 
-
-## OpenCode
-
-OpenCode-distributionen genereras från samma canonical instruktion och är workspace-first för faktisk implementation, build och validering.
 ## OpenCode-distribution
 
-OpenCode-paketet är avsett att läggas i en repository/workspace där prototypen ska byggas. Det använder samma canonical beteende som Chat och Custom GPT men kan utnyttja runtimeens filredigering och shell för faktisk implementation och deterministisk validering.
+OpenCode-paketet är workspace-first för faktisk implementation, build och validering och använder samma canonical beteende som Chat och Custom GPT.
 
 ## OpenAI Plugin
 
-OpenAI Plugin är en skills-first peer distribution med `equivalent_runtime_dependent` parity. Full canonical prototypimplementation kräver att hosten erbjuder writable filesystem, persistent workspace och code execution. Agent Workspace, PWA Preview och browser-rendering är valfria förstärkningar och får inte bli kärnberoenden. Pluginen deklarerar inga påhittade script-tools; den använder hostens faktiska projekt- och exekveringskapabiliteter.
-
+OpenAI Plugin är en skills-first peer distribution med `equivalent_runtime_dependent` parity. Full canonical prototypimplementation kräver att hosten erbjuder writable filesystem, persistent workspace och code execution. Agent Workspace, PWA Preview och Browser Screenshot är valfria förstärkningar och får inte bli kärnberoenden.
 
 ## Evals och modellrobusthet
 
-Evalpaketet täcker idé, skärmdump, URL, responsiv översättning, formulär/fel, browser-fallback, återupptagning och runtime parity. Coverage-gaten körs med `scripts/validate_eval_coverage.py`. Se `docs/evals-model-robustness.md`.
-
+Evalpaketet täcker idé, skärmdump, URL, responsiv översättning, formulär/fel, browser-fallback, pluginfrånvaro, partiella capability-kombinationer, failure isolation, cleanup, återupptagning och runtime parity. Coverage-gaten körs med `scripts/validate_eval_coverage.py`.
 
 ## Runtime parity och RC
 
-Slutlig parity-gate jämför canonicala kontrakt mellan Chat, Custom GPT, OpenCode och OpenAI Plugin. RC-readiness kräver att alla plansteg är klara, att inga varningar eller blockerare finns kvar och att slutlig hygiene passerar. Se `docs/runtime-parity-rc.md`.
+Slutlig parity-gate jämför canonicala kontrakt mellan Chat, Custom GPT, OpenCode och OpenAI Plugin. RC-readiness kräver att alla plansteg är klara, att inga varningar eller blockerare finns kvar och att slutlig hygiene passerar.
 
 ## GitHub Actions och release
 
-Projektet är GitHub-redo enligt GPT Byggarens standard. CI finns i `.github/workflows/ci.yml` och körs vid push, pull request och manuell dispatch. Den bygger automatiskt alla targets i `build_system.targets` med den reserverade CI-versionen `0.0.0-ci`.
-
-GitHub Release-byggning finns i `.github/workflows/release.yml`. När en release publiceras härleds versionsnumret från release-taggen och projekt-ZIP, Chat ZIP, Custom GPT ZIP, OpenCode ZIP och OpenAI Plugin ZIP byggs, valideras och bifogas tillsammans med `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json`.
-
-Se `docs/github-automation.md` för detaljer.
+CI finns i `.github/workflows/ci.yml` och körs vid push, pull request och manuell dispatch. GitHub Release-byggning finns i `.github/workflows/release.yml`; release-taggen används som version och distributionspaket plus checksummor bifogas.
