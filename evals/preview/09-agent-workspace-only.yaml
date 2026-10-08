@@ -1,0 +1,10 @@
+id: preview-agent-workspace-only
+purpose: Säkerställa korrekt beteende när bara build-provider finns.
+input: Agent Workspace finns men PWA Preview och Browser Screenshot saknas.
+expected:
+- verify_and_build_with_agent_workspace
+- allow_build_verified
+- keep_preview_deployed_false_or_not_tested
+- keep_browser_verified_false_or_not_tested
+- do_not_invent_public_preview_url
+- destroy_workspace_after_use
