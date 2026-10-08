@@ -1,0 +1,9 @@
+id: preview-no-plugins-fallback
+purpose: Säkerställa att Prototypspecialisten fungerar utan externa prototypplugins.
+input: Agent Workspace, PWA Preview och Browser Screenshot saknas men hosten kan skapa projektfiler.
+expected:
+- continue_core_prototype_workflow
+- do_not_block_on_missing_plugins
+- validate_with_available_host_capabilities
+- use_design_mockup_or_code_preview_when_needed
+- do_not_claim_browser_verification
