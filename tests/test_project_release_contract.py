@@ -56,14 +56,21 @@ def test_custom_gpt_instruction_stays_within_configured_limit():
     assert len(instruction) <= cfg['runtime']['custom_gpt']['instruction']['max_characters']
 
 
-def test_agent_workspace_is_preferred_but_optional():
+def test_optional_prototype_tool_pipeline_is_capability_based():
     cfg = load_cfg()
     instruction = (ROOT / cfg['instructions']['canonical']).read_text(encoding='utf-8')
     preview = (ROOT / 'assistant/policies/preview-contract.md').read_text(encoding='utf-8')
     external = cfg['capabilities']['requirements']['external_tools']
+
     assert external['level'] == 'optional'
-    assert 'Agent Workspace' in external['reason']
-    assert 'Agent Workspace' in instruction
-    assert 'användas automatiskt' in instruction
+    for tool in ('Agent Workspace', 'PWA Preview', 'Browser Screenshot'):
+        assert tool in external['reason']
+        assert tool in instruction
+
+    assert 'Agent Workspace → PWA Preview → Browser Screenshot' in instruction
     assert 'desktop-screenshot' in instruction
     assert 'desktop-first' in preview
+    assert 'inga externa verktyg' in preview
+    assert 'build_verified' in instruction
+    assert 'preview_deployed' in instruction
+    assert 'browser_verified' in instruction
