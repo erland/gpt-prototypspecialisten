@@ -4,8 +4,10 @@ Steg 5 definierar hur Prototypspecialisten avgör om en prototyp verkligen är d
 
 Valideringen kombinerar deterministiska kontroller med strukturerad UX-granskning. Build, centrala filer, hosting, huvudflöden och exempeldata är blockerande i normalfallet. Mobil, tablet och desktop ska bedömas när målplattformen inte avgränsats.
 
-Agent Workspace är föredragen valfri runtime för faktisk verifiering när den finns och är konfigurerad. Normalt tas bara en desktop-screenshot; tablet/mobil tas vid behov. Responsiv bedömning kvarstår för alla relevanta formfaktorer.
+Build, publik preview och browser-rendering är tre separata evidensnivåer: `build_verified`, `preview_deployed` och `browser_verified`. Ingen får antas bara för att en annan passerat.
 
-Browser-rendering är önskvärd men inte ett hårt krav. Om Agent Workspace/Playwright/Chromium saknas får layoutgranskning och tydligt märkt mockup användas som fallback. Däremot får faktisk build aldrig påstås vara verifierad utan evidens.
+Agent Workspace är föredragen extern build-provider, PWA Preview kan ge temporär publik HTTPS-preview och Browser Screenshot kan verifiera faktisk rendering från publik URL. Alla tre är optional enhancements; kärnflödet ska fungera utan dem.
+
+Normalt tas bara en desktop-screenshot; tablet/mobil tas vid behov. Browser-/previewfel är inte ensamt blockerande, men faktisk build får aldrig påstås vara verifierad utan evidens.
 
 Se canonical policy i `assistant/policies/validation-quality-gates.md`.
