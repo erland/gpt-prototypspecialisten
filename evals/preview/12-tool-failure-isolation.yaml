@@ -1,0 +1,9 @@
+id: preview-tool-failure-isolation
+purpose: Säkerställa att ett misslyckat optional steg inte ogiltigförklarar tidigare evidens.
+input: Build verifieras men PWA Preview eller Browser Screenshot misslyckas.
+expected:
+- preserve_build_verified
+- record_failed_optional_step
+- do_not_claim_failed_step_passed
+- allow_pass_with_warning_when_blocking_gates_pass
+- continue_to_delivery
