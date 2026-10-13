@@ -1,19 +1,36 @@
 # Migrering till GPT Byggaren 1.6.21
 
-- Ursprung: erland/gpt-prototypspecialisten, 0.1.0-rc.3
-- Migreringskandidat: 0.1.0-migration.1
-- Canonical instruktion och prototyprelaterade policies är bevarade.
-- Custom GPT avvecklad som runtime; Claude Project och Claude Skills tillagda.
-- Chat, Plugin och OpenCode byggs med samma originalmotor.
-- Externa Agent Workspace, PWA Preview och Browser Screenshot förblir valfria.
-- Den äldre runtime-paritetskontrollen har uppdaterats för de nya instruktionsmålen.
-- Äldre GitHub-workflows bör granskas innan ändringarna publiceras; tidigare CI har historiska runtime-antaganden.
-- Detta är en migreringskandidat, inte stabil release.
+## Versionshistorik och omfattning
 
-## Release quality update 0.1.0-rc.4
+- Ursprunglig projektversion: `0.1.0-rc.3`.
+- Första migrationsbygge: `0.1.0-migration.1` (historik, inte aktuell version).
+- Första uppdaterade releasekandidat: `0.1.0-rc.4` (PR #5, mergad).
+- **Aktuell releasekandidat: `0.1.0-rc.5` (modulära skills, PR #6).**
+- Fem aktiva distributioner: Chat ZIP, ChatGPT Plugin, Claude Project, Claude Skills och OpenCode.
+- Custom GPT är avstängd som distributionsmål.
+- Agent Workspace, PWA Preview och Browser Screenshot är fortsatt frivilliga integrationer.
 
-- Originalmotor v1.6.21 incheckningsbar i `tooling/gpt-byggaren-1.6.21`.
-- CI/release använder originalmotorn för byggen och distributionstest.
-- Paritetskontroll jämför nu riktiga genererade runtime-arkiv.
-- Versionsbundet projekt-ZIP godkänns av releaseberedskapskontrollen.
-- Regressionstesterna är 9/9; manuell runtime-smoke återstår innan stabil release.
+## Modulär arkitektur i rc.5
+
+- `assistant/core.md` innehåller gemensam identitet, kärnregler och arbetsledning.
+- `assistant/assembly.json` anger ordning och ägarskap för instruktionens avsnitt.
+- `assistant/skills/{ux-analys,responsiv-ux,preview-publicering,prototypbygge,verifiering,projektstatus}/behavior.md` är de sex kanoniska skillkällorna.
+- `gpt-project.yaml` aktiverar `instructions.mode: modular_skills` och pekar ut källorna.
+- Den sammansatta instruktionen jämfördes lokalt med tidigare kanonisk instruktion och var tecken för tecken identisk i migrationsarbetet.
+
+## Motor, kompatibilitet och filhygien
+
+Den versionsbundna originalmotorn finns under `tooling/gpt-byggaren-1.6.21/`. GitHub Actions använder denna motor för lint, distributionbygge och distributionsvalidering. Befintliga `scripts/` behålls avsiktligt för projektspecifika kontroller och regressionstester; radera dem inte utan separat beroendeanalys.
+
+Inaktiva äldre `runtime.custom_gpt`-inställningar kan finnas kvar som kompatibilitetsmetadata, men ska inte generera en sjätte distribution.
+
+`.gitignore` utesluter bland annat `dist/`, `build/`, ZIP-arkiv och cachefiler. Originalmotorns källkod i `tooling/` är däremot avsiktligt versionshanterad.
+
+## Verifiering och releasegrindar
+
+- Lokalt under rc.5-migreringen: kanonisk lint med 0 fel/0 varningar, 9/9 regressionstester, distributionsvalidering och runtime-paritet PASS.
+- GitHub Actions på PR #6 ska kontrolleras efter ändringar; lokala tester utgör inte bevis på godkänd CI för PR-committen.
+- Före merge: kontrollera aktuell CI, filändringar och att inga genererade paket eller cachefiler tillkommit.
+- Före stabil release: genomför praktiska smoke-/acceptanstester i samtliga fem runtime-miljöer, särskilt Chat ZIP och Plugin med och utan frivilliga integrationer.
+
+Denna PR avser en releasekandidat, inte en stabil release.
