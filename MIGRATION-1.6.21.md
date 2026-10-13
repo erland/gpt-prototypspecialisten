@@ -1,29 +1,36 @@
 # Migrering till GPT Byggaren 1.6.21
 
-## Versioner och omfattning
+## Versionshistorik och omfattning
 
-- Ursprung: Prototypspecialisten `0.1.0-rc.3`.
-- Första mellanliggande migrationsbygge: `0.1.0-migration.1` (historik, inte aktuell releasekandidat).
-- **Aktuell releasekandidat: `0.1.0-rc.4`.**
+- Ursprunglig projektversion: `0.1.0-rc.3`.
+- Första migrationsbygge: `0.1.0-migration.1` (historik, inte aktuell version).
+- Första uppdaterade releasekandidat: `0.1.0-rc.4` (PR #5, mergad).
+- **Aktuell releasekandidat: `0.1.0-rc.5` (modulära skills, PR #6).**
 - Fem aktiva distributioner: Chat ZIP, ChatGPT Plugin, Claude Project, Claude Skills och OpenCode.
 - Custom GPT är avstängd som distributionsmål.
-- Canonical instruktion och UX-/prototyppolicyer är bevarade.
-- Agent Workspace, PWA Preview och Browser Screenshot förblir frivilliga integrationer.
+- Agent Workspace, PWA Preview och Browser Screenshot är fortsatt frivilliga integrationer.
 
-## Motor, kompatibilitet och filer
+## Modulär arkitektur i rc.5
 
-Den versionsbundna originalmotorn finns i `tooling/gpt-byggaren-1.6.21/`. CI och release använder dess skript för kanonisk lint, distributionbygge och distributionsvalidering.
+- `assistant/core.md` innehåller gemensam identitet, kärnregler och arbetsledning.
+- `assistant/assembly.json` anger ordning och ägarskap för instruktionens avsnitt.
+- `assistant/skills/{ux-analys,responsiv-ux,preview-publicering,prototypbygge,verifiering,projektstatus}/behavior.md` är de sex kanoniska skillkällorna.
+- `gpt-project.yaml` aktiverar `instructions.mode: modular_skills` och pekar ut källorna.
+- Den sammansatta instruktionen jämfördes lokalt med tidigare kanonisk instruktion och var tecken för tecken identisk i migrationsarbetet.
 
-De befintliga skripten under `scripts/` behålls avsiktligt: de används av projektspecifika kontroller, paritetsvalidering och äldre regressionstester. Det finns således två koduppsättningar men **en explicit vald byggmotor i GitHub Actions**. Radera inte lokala skript utan en separat beroende- och regressionstestgenomgång.
+## Motor, kompatibilitet och filhygien
 
-Äldre `runtime.custom_gpt`-inställningar är inaktiva och finns kvar som kompatibilitetsmetadata. De får inte aktivera ett sjätte distributionsmål.
+Den versionsbundna originalmotorn finns under `tooling/gpt-byggaren-1.6.21/`. GitHub Actions använder denna motor för lint, distributionbygge och distributionsvalidering. Befintliga `scripts/` behålls avsiktligt för projektspecifika kontroller och regressionstester; radera dem inte utan separat beroendeanalys.
 
-`.gitignore` utesluter bland annat `dist/`, `build/`, ZIP-arkiv och cachefiler. Dessa ska inte checkas in. Originalmotorns versionsbundna källkod under `tooling/` är däremot avsedd att versionshanteras.
+Inaktiva äldre `runtime.custom_gpt`-inställningar kan finnas kvar som kompatibilitetsmetadata, men ska inte generera en sjätte distribution.
 
-## Kvalitet och nästa grind
+`.gitignore` utesluter bland annat `dist/`, `build/`, ZIP-arkiv och cachefiler. Originalmotorns källkod i `tooling/` är däremot avsiktligt versionshanterad.
 
-- Lokal kontroll i migrationsarbetskopian: 9/9 regressionstester, kanonisk lint utan fel och varningar, distributionsvalidering och runtime-paritet godkända.
-- Det är **inte likvärdigt med en verifierad GitHub Actions-körning** på PR-grenens commit.
-- Före merge: kontrollera att GitHub Actions på PR-grenen passerar; granska filändringarna och kontrollera att inga byggartefakter lagts till.
-- Före stabil release: gör manuella smoke-tester i respektive runtime, med och utan frivilliga integrationer där det är relevant.
-- PR #5 är en releasekandidat och ska inte i sig betraktas som stabil release.
+## Verifiering och releasegrindar
+
+- Lokalt under rc.5-migreringen: kanonisk lint med 0 fel/0 varningar, 9/9 regressionstester, distributionsvalidering och runtime-paritet PASS.
+- GitHub Actions på PR #6 ska kontrolleras efter ändringar; lokala tester utgör inte bevis på godkänd CI för PR-committen.
+- Före merge: kontrollera aktuell CI, filändringar och att inga genererade paket eller cachefiler tillkommit.
+- Före stabil release: genomför praktiska smoke-/acceptanstester i samtliga fem runtime-miljöer, särskilt Chat ZIP och Plugin med och utan frivilliga integrationer.
+
+Denna PR avser en releasekandidat, inte en stabil release.

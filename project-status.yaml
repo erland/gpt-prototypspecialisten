@@ -32,8 +32,9 @@ state:
   warnings: []
 next_step:
   recommended: stable_release
-  title: Smoke-testa 0.1.0-rc.4 och publicera stabil release
-  reason: OpenAI Plugin-stödet är implementerat och CI-validerat i 0.1.0-rc.4-snapshoten; nästa steg enligt RC-policyn är praktisk smoke test och därefter stabil release.
+  title: Smoke-testa 0.1.0-rc.5 med sex modulära skill-källor
+  reason: Modulär skills-arkitektur är migrerad och kräver manuell runtime-smoke före
+    stabil release.
 resume:
   supported: true
   required_files:
@@ -42,12 +43,13 @@ resume:
   - docs/development-plan.md
   - STATUS.md
   - PROJECT.md
-  human_readable_status: Steg 12 klart. OpenAI Plugin är CI-validerad tillsammans med övriga aktiva runtimes; nästa rekommenderade steg är 0.1.0-rc.4 och praktisk smoke test.
+  human_readable_status: Modulära skills enligt GPT Byggaren 1.6.21; kandidat 0.1.0-rc.5.
+    Praktisk smoke-testning återstår.
 validation:
   last_result: pass
 project_hygiene:
   last_result: pass
 release:
   status: release_candidate
-  version: 0.1.0-rc.4
+  version: 0.1.0-rc.5
   runtime_parity: pass
