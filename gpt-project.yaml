@@ -51,7 +51,8 @@ capabilities:
       - mcp
       reason: Externa MCP-verktyg får förstärka separata kapabiliteter för build/verifiering,
         temporär preview och browser-rendering. Agent Workspace, PWA Preview och Browser
-        Screenshot ska användas när relevanta kapabiliteter finns men får inte vara kärnberoenden.
+        Screenshot ska användas när relevanta kapabiliteter finns men får inte vara
+        kärnberoenden.
     image_generation:
       level: recommended
       reason: Ger tidiga visuella mockups när riktig browser-rendering saknas.
@@ -204,9 +205,6 @@ analysis:
     - runtime_id: chatgpt_chat
       suitability: high
       planned_default: true
-    - runtime_id: chatgpt_custom
-      suitability: high
-      planned_default: true
     - runtime_id: claude_projects
       suitability: medium
       planned_default: false
@@ -215,6 +213,12 @@ analysis:
       planned_default: true
     - runtime_id: openai_plugin
       suitability: equivalent_runtime_dependent
+      planned_default: true
+    - runtime_id: claude_project
+      suitability: high
+      planned_default: true
+    - runtime_id: claude_skills
+      suitability: high
       planned_default: true
 structure:
   conversation_starters:
@@ -232,8 +236,10 @@ skills:
   definitions:
   - id: prototypspecialisten
     name: prototypspecialisten
-    description: Analysera användningsfall och skapa, iterera och validera körbara responsiva webbprototyper med realistisk exempeldata; använd hostens filesystem och code execution för faktisk implementation och optional externa integrations för preview/rendering.
-
+    description: Analysera användningsfall och skapa, iterera och validera körbara
+      responsiva webbprototyper med realistisk exempeldata; använd hostens filesystem
+      och code execution för faktisk implementation och optional externa integrations
+      för preview/rendering.
 knowledge_architecture:
   canonical_root: knowledge
   custom_gpt:
@@ -245,7 +251,7 @@ runtime:
     enabled: true
     start_here_template: templates/START-HERE.chat.md.tpl
   custom_gpt:
-    enabled: true
+    enabled: false
     instruction:
       mode: identical
       max_characters: 8000
@@ -259,7 +265,21 @@ runtime:
     builder:
       runtime_contract: builder/runtime-contract.json
   claude:
-    enabled: false
+    enabled: true
+    role: peer_distribution
+    mode: claude_project
+    schema: schemas/claude-portable-runtime.schema.json
+    policy: assistant/policies/claude-portable-runtime-policy.md
+    model: docs/claude-portable-runtime.md
+    project:
+      instructions: project/instructions.md
+      knowledge: project/knowledge
+      runtime_contract: project/runtime-contract.json
+    templates:
+      readme: templates/README.claude.md.tpl
+    validation:
+      require_instructions: true
+      require_runtime_contract: true
   opencode:
     enabled: true
     layout:
@@ -288,15 +308,16 @@ runtime:
       require_skill_frontmatter: true
 build:
   build_chat_zip: true
-  build_custom_gpt_zip: true
-  build_claude_zip: false
+  build_custom_gpt_zip: false
+  build_claude_zip: true
   build_opencode_zip: true
   build_plugin_zip: true
 build_system:
   targets:
   - project
   - chat
-  - custom_gpt
+  - claude_project
+  - claude_skills
   - opencode
   - plugin
   runtime_targets:
@@ -306,12 +327,6 @@ build_system:
       builder: chat
       filename_pattern: <project-id>-chat-<version>.zip
       artifact_type: chat_zip
-    custom_gpt:
-      runtime_id: chatgpt_custom
-      runtime_key: custom_gpt
-      builder: custom_gpt
-      filename_pattern: <project-id>-custom-gpt-<version>.zip
-      artifact_type: custom_gpt_zip
     opencode:
       runtime_id: opencode
       runtime_key: opencode
@@ -324,6 +339,18 @@ build_system:
       builder: plugin
       filename_pattern: <project-id>-plugin-<version>.zip
       artifact_type: plugin_zip
+    claude_project:
+      runtime_id: claude_project
+      runtime_key: claude
+      builder: claude
+      artifact_type: claude_project_zip
+      filename_pattern: <project-id>-claude-project-<version>.zip
+    claude_skills:
+      runtime_id: claude_skills
+      runtime_key: claude
+      builder: claude_skills
+      artifact_type: claude_skills_zip
+      filename_pattern: <project-id>-claude-skills-<version>.zip
 ci:
   enabled: true
   workflow: .github/workflows/ci.yml
@@ -334,11 +361,12 @@ release:
     workflow: .github/workflows/release.yml
     version_source: github.event.release.tag_name
   candidate:
-    version: 0.1.0-rc.3
+    version: 0.1.0-rc.4
     parity_validator: scripts/validate_runtime_parity.py
     readiness_validator: scripts/validate_release_candidate.py
     active_runtimes:
     - chatgpt_chat
-    - chatgpt_custom
+    - claude_project
+    - claude_skills
     - opencode
     - openai_plugin

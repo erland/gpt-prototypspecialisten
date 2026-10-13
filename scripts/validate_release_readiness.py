@@ -65,7 +65,7 @@ def main() -> int:
             if manifest.get('version') != args.version:
                 errors.append('RR-011: delivery manifest version mismatch')
 
-    expected_files = [f"{cfg['project']['id']}-project.zip"]
+    expected_files = [f"{cfg['project']['id']}-project-{args.version}.zip"]
     for target in cfg.get('build_system', {}).get('targets', []):
         if target == 'project':
             continue
