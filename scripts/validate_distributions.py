@@ -84,6 +84,30 @@ def validate_claude(root: Path, cfg: dict) -> list[str]:
     return errors
 
 
+
+def validate_claude_skills(root: Path, cfg: dict) -> list[str]:
+    errors = []
+    build = root / "build" / "claude-skills"
+    if not build.exists():
+        return ["Claude Skills build directory missing"]
+    for name in ("README.md", "VERSION", "MANIFEST.json", "runtime-contract.json"):
+        if not (build / name).is_file():
+            errors.append(f"Claude Skills missing {name}")
+    if (build / "project").exists():
+        errors.append("Claude Skills must not embed a Claude Project")
+    skills = cfg.get("skills", {}).get("definitions", [])
+    for skill in skills:
+        ident = skill["id"]
+        skill_dir = build / "skills" / ident
+        if not (skill_dir / "SKILL.md").is_file():
+            errors.append(f"Claude Skills missing {ident}/SKILL.md")
+        for category in ("references", "assets", "scripts"):
+            for source in skill.get(category, []) or []:
+                if not (skill_dir / category / Path(source).name).is_file():
+                    errors.append(f"Claude Skills missing {ident}/{category}/{Path(source).name}")
+    return errors
+
+
 def validate_opencode(root: Path, cfg: dict) -> list[str]:
     errors = []
     build = root / "build" / "opencode"
@@ -170,11 +194,31 @@ def _parse_skill_frontmatter(text: str) -> dict:
     return data
 
 
+def validate_plugin_zip_entries(zip_path: Path) -> list[str]:
+    """Check installable archive entries, not just staging paths."""
+    errors = []
+    try:
+        with zipfile.ZipFile(zip_path) as archive:
+            for entry in archive.namelist():
+                if entry.replace("\\", "/").rstrip("/").split("/")[-1].lower() == "mcp.json":
+                    errors.append(f"Forbidden plugin ZIP entry: {entry}")
+    except (OSError, zipfile.BadZipFile) as exc:
+        errors.append(f"Invalid plugin ZIP: {exc}")
+    return errors
+
+
 def validate_plugin(root: Path, cfg: dict) -> list[str]:
     errors = []
     build = root / "build" / "plugin"
     if not build.exists():
         return ["Plugin build directory missing"]
+
+    for path in build.rglob("*"):
+        if path.is_file() and path.name.lower() == "mcp.json":
+            errors.append(f"Forbidden plugin file: {path.relative_to(build)}")
+
+    for archive in (root / "dist").glob(f"{cfg['project']['id']}-plugin-*.zip"):
+        errors.extend(validate_plugin_zip_entries(archive))
 
     runtime_cfg = cfg["runtime"]["plugin"]
     required = [
@@ -239,6 +283,22 @@ def validate_plugin(root: Path, cfg: dict) -> list[str]:
                         f"Missing plugin skill {key[:-1]}: {expected.relative_to(build)}"
                     )
 
+        scripts_dir = skill_dir / "scripts"
+        packaged_scripts = [
+            p for p in scripts_dir.glob("*")
+            if p.is_file()
+        ] if scripts_dir.exists() else []
+        shared_lib = root / "scripts" / "lib"
+        if packaged_scripts and shared_lib.exists():
+            for source in shared_lib.rglob("*"):
+                if not source.is_file() or source.suffix in {".pyc", ".pyo"}:
+                    continue
+                expected = scripts_dir / "lib" / source.relative_to(shared_lib)
+                if not expected.exists():
+                    errors.append(
+                        f"Missing plugin shared script dependency: {expected.relative_to(build)}"
+                    )
+
     forbidden_parts = {
         ".git",
         ".github",
@@ -292,6 +352,14 @@ def main() -> int:
 
     root = Path(args.project_root).resolve()
     cfg = load_cfg(root)
+    if isinstance(cfg.get("reconstruction"), dict) and (
+        cfg["reconstruction"].get("release_ready") is not True
+        or cfg["reconstruction"].get("status") != "runtime_parity_verified"
+    ):
+        raise SystemExit(
+            "Reconstructed project is not release-ready: complete and verify "
+            "runtime parity before distribution build or validation"
+        )
 
     errors = []
     errors.extend(validate_chat(root, cfg))
@@ -299,6 +367,7 @@ def main() -> int:
         errors.extend(validate_custom(root, cfg))
     if cfg.get("runtime", {}).get("claude", {}).get("enabled"):
         errors.extend(validate_claude(root, cfg))
+        errors.extend(validate_claude_skills(root, cfg))
     if cfg.get("runtime", {}).get("opencode", {}).get("enabled"):
         errors.extend(validate_opencode(root, cfg))
     if cfg.get("runtime", {}).get("plugin", {}).get("enabled"):
