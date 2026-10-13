@@ -19,6 +19,9 @@ instructions:
     required_runtime_dependencies: []
     max_required_file_hops: 1
     knowledge_may_not_be_required_for_core_behavior: true
+  mode: modular_skills
+  core: assistant/core.md
+  assembly: assistant/assembly.json
 capabilities:
   contract_version: 1
   schema: schemas/capability-contract.schema.json
@@ -234,12 +237,30 @@ skills:
   schema: schemas/skill-contract.schema.json
   mode: explicit
   definitions:
-  - id: prototypspecialisten
-    name: prototypspecialisten
-    description: Analysera användningsfall och skapa, iterera och validera körbara
-      responsiva webbprototyper med realistisk exempeldata; använd hostens filesystem
-      och code execution för faktisk implementation och optional externa integrations
-      för preview/rendering.
+  - id: ux-analys
+    name: ux-analys
+    description: Analysera användningsfall, referenser och användarflöden.
+    source: assistant/skills/ux-analys/behavior.md
+  - id: responsiv-ux
+    name: responsiv-ux
+    description: Planera exempeldata och responsiv UX för mobil, tablet och desktop.
+    source: assistant/skills/responsiv-ux/behavior.md
+  - id: preview-publicering
+    name: preview-publicering
+    description: Välj frivilliga integrationsverktyg för preview och verkliga screenshots.
+    source: assistant/skills/preview-publicering/behavior.md
+  - id: prototypbygge
+    name: prototypbygge
+    description: Bygg körbara React/TypeScript/Vite-prototyper och leverera projekt.
+    source: assistant/skills/prototypbygge/behavior.md
+  - id: verifiering
+    name: verifiering
+    description: Validera byggning, tillstånd, användarflöden och kvalitetsgates.
+    source: assistant/skills/verifiering/behavior.md
+  - id: projektstatus
+    name: projektstatus
+    description: Hantera återupptagning och beständig projektstatus.
+    source: assistant/skills/projektstatus/behavior.md
 knowledge_architecture:
   canonical_root: knowledge
   custom_gpt:
@@ -361,7 +382,7 @@ release:
     workflow: .github/workflows/release.yml
     version_source: github.event.release.tag_name
   candidate:
-    version: 0.1.0-rc.4
+    version: 0.1.0-rc.5
     parity_validator: scripts/validate_runtime_parity.py
     readiness_validator: scripts/validate_release_candidate.py
     active_runtimes:

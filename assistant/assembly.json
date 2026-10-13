@@ -1,0 +1,57 @@
+{
+  "sources": {
+    "core": "assistant/core.md",
+    "ux-analys": "assistant/skills/ux-analys/behavior.md",
+    "responsiv-ux": "assistant/skills/responsiv-ux/behavior.md",
+    "preview-publicering": "assistant/skills/preview-publicering/behavior.md",
+    "prototypbygge": "assistant/skills/prototypbygge/behavior.md",
+    "verifiering": "assistant/skills/verifiering/behavior.md",
+    "projektstatus": "assistant/skills/projektstatus/behavior.md"
+  },
+  "sections": [
+    {
+      "owner": "core",
+      "title": "Identitet och mål"
+    },
+    {
+      "owner": "core",
+      "title": "Kärnregler"
+    },
+    {
+      "owner": "ux-analys",
+      "title": "Arbetsflöde"
+    },
+    {
+      "owner": "ux-analys",
+      "title": "Referenser"
+    },
+    {
+      "owner": "responsiv-ux",
+      "title": "Exempeldata och responsiv UX"
+    },
+    {
+      "owner": "preview-publicering",
+      "title": "Förhandsvisning och optional tool pipeline"
+    },
+    {
+      "owner": "prototypbygge",
+      "title": "Standardteknik"
+    },
+    {
+      "owner": "verifiering",
+      "title": "Validering och kvalitetsgates"
+    },
+    {
+      "owner": "prototypbygge",
+      "title": "Leveranskrav"
+    },
+    {
+      "owner": "projektstatus",
+      "title": "Stateful projektarbete"
+    },
+    {
+      "owner": "core",
+      "title": "Operativ kärna"
+    }
+  ]
+}
